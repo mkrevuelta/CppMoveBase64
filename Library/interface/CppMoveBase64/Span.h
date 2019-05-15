@@ -1,20 +1,20 @@
 /*
-    Foo/Span.h
+    CppMoveBase64/Span.h
 
     Copyright (c) 2019, Martin Knoblauch Revuelta
     See accompanying LICENSE
 
-    https://github.com/mkrevuelta/CppLibraryInterfacePoC
+    https://github.com/mkrevuelta/CppMoveBase64
 */
 
-#ifndef __FOO_SPAN_H__
-#define __FOO_SPAN_H__
+#ifndef __CPPMOVEBASE64_SPAN_H__
+#define __CPPMOVEBASE64_SPAN_H__
 
 #include "ApiMacros.h"
 
 #include <cstddef>
 
-namespace foo
+namespace cmbase64
 {
 
 template <typename T>
@@ -130,7 +130,7 @@ public:
     const T & operator[] (std::size_t pos) const { return first[pos]; }
 };
 
-} // namespace foo
+} // namespace cmbase64
 
-#endif // __FOO_SPAN_H__
+#endif // __CPPMOVEBASE64_SPAN_H__
 

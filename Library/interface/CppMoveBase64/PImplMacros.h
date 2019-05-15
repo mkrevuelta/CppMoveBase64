@@ -1,19 +1,19 @@
 /*
-    Foo/PImplMacros.h
+    CppMoveBase64/PImplMacros.h
 
     Copyright (c) 2019, Martin Knoblauch Revuelta
     See accompanying LICENSE
 
-    https://github.com/mkrevuelta/CppLibraryInterfacePoC
+    https://github.com/mkrevuelta/CppMoveBase64
 */
 
-#ifndef __FOO_PIMPLMACROS_H__
-#define __FOO_PIMPLMACROS_H__
+#ifndef __CPPMOVEBASE64_PIMPLMACROS_H__
+#define __CPPMOVEBASE64_PIMPLMACROS_H__
 
 #include "ApiMacros.h"
 #include "UniquePtr.h"
 
-#define FOO_DECLARE_PIMPL(CLASS)                          \
+#define CMBASE64_DECLARE_PIMPL(CLASS)                     \
                                                           \
 private:                                                  \
                                                           \
@@ -22,28 +22,28 @@ private:                                                  \
                                                           \
 public:                                                   \
                                                           \
-    CLASS () FOO_NOEXCEPT;                                \
-    CLASS (CLASS &&) FOO_NOEXCEPT;                        \
+    CLASS () CMBASE64_NOEXCEPT;                           \
+    CLASS (CLASS &&) CMBASE64_NOEXCEPT;                   \
     CLASS (const CLASS &);                                \
-    ~CLASS () FOO_NOEXCEPT;                               \
-    CLASS & operator= (CLASS &&) FOO_NOEXCEPT;            \
+    ~CLASS () CMBASE64_NOEXCEPT;                          \
+    CLASS & operator= (CLASS &&) CMBASE64_NOEXCEPT;       \
     CLASS & operator= (const CLASS &);                    \
-    void swap (CLASS &) FOO_NOEXCEPT;
+    void swap (CLASS &) CMBASE64_NOEXCEPT;
 
-#define FOO_INLINE_SYMMETRIC_SWAP(CLASS)                  \
+#define CMBASE64_INLINE_SYMMETRIC_SWAP(CLASS)             \
                                                           \
-inline void swap (CLASS & a, CLASS & b) FOO_NOEXCEPT      \
+inline void swap (CLASS & a, CLASS & b) CMBASE64_NOEXCEPT \
 {                                                         \
     a.swap (b);                                           \
 }
 
-#define FOO_IMPLEMENT_INNER_PIMPL(FULLNAME,CLASS)         \
+#define CMBASE64_IMPLEMENT_INNER_PIMPL(FULLNAME,CLASS)    \
                                                           \
-FULLNAME::CLASS () FOO_NOEXCEPT                           \
+FULLNAME::CLASS () CMBASE64_NOEXCEPT                      \
 {                                                         \
 }                                                         \
                                                           \
-FULLNAME::CLASS (FULLNAME && other) FOO_NOEXCEPT          \
+FULLNAME::CLASS (FULLNAME && other) CMBASE64_NOEXCEPT     \
     :                                                     \
     pImpl(std::move(other.pImpl))                         \
 {                                                         \
@@ -56,12 +56,12 @@ FULLNAME::CLASS (const FULLNAME & other)                  \
 {                                                         \
 }                                                         \
                                                           \
-FULLNAME::~CLASS () FOO_NOEXCEPT                          \
+FULLNAME::~CLASS () CMBASE64_NOEXCEPT                     \
 {                                                         \
 }                                                         \
                                                           \
 FULLNAME & FULLNAME::operator= (                          \
-                FULLNAME && other) FOO_NOEXCEPT           \
+                FULLNAME && other) CMBASE64_NOEXCEPT      \
 {                                                         \
     pImpl = std::move (other.pImpl);                      \
     return *this;                                         \
@@ -75,13 +75,13 @@ FULLNAME & FULLNAME::operator= (                          \
     return *this;                                         \
 }                                                         \
                                                           \
-void FULLNAME::swap (FULLNAME & other) FOO_NOEXCEPT       \
+void FULLNAME::swap (FULLNAME & other) CMBASE64_NOEXCEPT  \
 {                                                         \
     pImpl.swap (other.pImpl);                             \
 }
 
-#define FOO_IMPLEMENT_PIMPL(CLASS)                        \
-        FOO_IMPLEMENT_INNER_PIMPL (CLASS, CLASS)
+#define CMBASE64_IMPLEMENT_PIMPL(CLASS)                   \
+        CMBASE64_IMPLEMENT_INNER_PIMPL (CLASS, CLASS)
 
-#endif // __FOO_PIMPLMACROS_H__
+#endif // __CPPMOVEBASE64_PIMPLMACROS_H__
 
