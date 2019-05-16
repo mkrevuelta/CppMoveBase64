@@ -12,6 +12,8 @@
 
 #include "ApiMacros.h"
 
+#include <utility>
+
 namespace cmbase64
 {
 
