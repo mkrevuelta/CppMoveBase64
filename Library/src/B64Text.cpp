@@ -11,6 +11,7 @@
 
 #include "Buffer.h"
 #include "Encode.h"
+#include "Errors.h"
 
 namespace cmbase64
 {
@@ -18,8 +19,7 @@ namespace cmbase64
 struct B64Text::Impl
 {
     internal::Buffer buff;
-
-    //-- TODO: Add members to store error information
+    internal::ErrInfo errInfo;
 };
 
 CMBASE64_IMPLEMENT_MOVE_ONLY_PIMPL (B64Text)
@@ -45,18 +45,26 @@ std::size_t B64Text::size () const // Discounts trailing '\0'
                                         pImpl->buff.totalSize-1 : 0;
 }
 
+bool B64Text::isOk () const
+{
+    return pImpl && ! pImpl->errInfo.what;
+}
+
+const char * B64Text::errorMessage () const
+{
+    return ! pImpl             ? "Empty, moved-from buffer" :
+           pImpl->errInfo.what ? pImpl->errInfo.what :
+                                 "All OK. No error... duh!";
+}
+
 B64Text CMBASE64_API B64Text::encode (ConstSpan<char> binData)
 {
     B64Text result;
 
-    try
+    internal::runWithErrorHarness (result.pImpl->errInfo, [&]()
     {
         result.pImpl->buff = internal::encode (binData);
-    }
-    catch (...)
-    {
-        //-- TODO: Store error data in result, somehow
-    }
+    });
 
     return result;
 }

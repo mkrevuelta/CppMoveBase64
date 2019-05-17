@@ -30,7 +30,9 @@ public:
 
     std::size_t size () const;   // Not including final '\0'
 
-    //-- TODO: Add functions to provide error information
+    bool isOk () const;
+    bool isError () const  { return ! isOk(); }
+    const char * errorMessage () const;
 
     static B64Text encode (ConstSpan<char> binData);
 };
