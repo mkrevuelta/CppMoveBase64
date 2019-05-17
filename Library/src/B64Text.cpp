@@ -57,7 +57,7 @@ const char * B64Text::errorMessage () const
                                  "All OK. No error... duh!";
 }
 
-B64Text CMBASE64_API B64Text::encode (ConstSpan<char> binData)
+B64Text B64Text::encode (ConstSpan<char> binData)
 {
     B64Text result;
 
