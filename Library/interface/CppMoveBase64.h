@@ -26,11 +26,13 @@ inline B64Text encode (ConstSpan<unsigned char> binData)
                     reinterpret_cast<const char *>(binData.cend())   ));
 }
 
-template <typename T,
-          class = typename std::enable_if
-                          <std::is_fundamental<T>::value,T>::type>
+template <typename T>
 B64Text encode (const std::vector<T> & binData)
 {
+    typedef typename std::enable_if
+                <std::is_fundamental<T>::value,T>::type
+                    must_be_fundamental_type;
+                          
     const char * begin = reinterpret_cast<const char *>(binData.data());
     return B64Text::encode (
                 ConstSpan<char> (
