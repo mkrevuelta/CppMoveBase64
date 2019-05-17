@@ -26,7 +26,9 @@ inline B64Text encode (ConstSpan<unsigned char> binData)
                     reinterpret_cast<const char *>(binData.cend())   ));
 }
 
-template <typename T>
+template <typename T,
+          class = typename std::enable_if
+                          <std::is_fundamental<T>::value,T>::type>
 B64Text encode (const std::vector<T> & binData)
 {
     const char * begin = reinterpret_cast<const char *>(binData.data());
