@@ -1,3 +1,12 @@
+/*
+    TestEncodeHello.cpp
+
+    Copyright (c) 2019, Martin Knoblauch Revuelta
+    See accompanying LICENSE
+
+    https://github.com/mkrevuelta/CppMoveBase64
+*/
+
 #include <iostream>
 #include <string>
 #include <exception>
