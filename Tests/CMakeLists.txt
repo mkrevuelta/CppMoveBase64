@@ -1,0 +1,21 @@
+cmake_minimum_required (VERSION 2.8.9)
+
+project (Tests)
+
+set (CMAKE_BUILD_TYPE Release)
+set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Werror -std=c++11")
+
+include_directories (${CMAKE_CURRENT_SOURCE_DIR}/../Library/interface)
+
+add_executable (
+    Tests
+    src/main.cpp
+    src/TestEncodeHello
+    src/TestEncodeVectorInt)
+
+target_link_libraries (
+    Tests
+    CppMoveBase64)
+
+add_test (EncodeHello     Tests EncodeHello)
+add_test (EncodeVectorInt Tests EncodeVectorInt)
