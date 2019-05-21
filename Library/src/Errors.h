@@ -14,6 +14,7 @@
 
 #include <new>
 #include <functional>
+#include <string>
 
 #ifndef COMPILING_CMBASE64
 #error "This .h should never be included from out of the CppMoveBase64 project"
