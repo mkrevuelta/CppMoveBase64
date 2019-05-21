@@ -9,7 +9,7 @@ include_directories (${CMAKE_CURRENT_SOURCE_DIR}/interface)
 
 add_library (
     CppMoveBase64
-    STATIC
+    SHARED
     src/Encode.cpp
     src/B64Text.cpp)
 
