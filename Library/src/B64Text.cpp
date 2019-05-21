@@ -8,6 +8,7 @@
 */
 
 #include <CppMoveBase64/B64Text.h>
+#include <CppMoveBase64.h>
 
 #include "Buffer.h"
 #include "Encode.h"
@@ -63,7 +64,12 @@ B64Text B64Text::encode (ConstSpan<char> binData)
 
     internal::runWithErrorHarness (result.pImpl->errInfo, [&]()
     {
-        result.pImpl->buff = internal::encode (binData);
+        auto & buff = result.pImpl->buff;
+
+        buff.totalSize = encodedSize (binData.size ());
+        buff.data.reset (new char [buff.totalSize]);
+
+        cmbase64::encode (binData, buff.data.get());
     });
 
     return result;

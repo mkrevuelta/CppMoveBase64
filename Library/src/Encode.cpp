@@ -12,9 +12,6 @@
 namespace cmbase64
 {
 
-namespace internal
-{
-
 static const char table[64] =
 {
     'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M',
@@ -28,17 +25,12 @@ static const char table[64] =
     '+', '/'
 };
 
-Buffer encode (ConstSpan<char> binData)
+CMBASE64_API void encode (ConstSpan<char> binData, char * dst)
+                                                CMBASE64_NOEXCEPT
 {
-    Buffer result;
-
     std::size_t size = binData.size ();
-    auto src = reinterpret_cast<const unsigned char *> (binData.begin ());
-
-    result.totalSize = (size+2)/3*4 + 1;
-    result.data.reset (new char [result.totalSize]);
-    char * dst = result.data.get ();
-
+    auto src = reinterpret_cast<const unsigned char *> (
+                                                    binData.begin ());
     std::size_t tailSize = size % 3;
 
     if (size >= 3)
@@ -89,10 +81,6 @@ Buffer encode (ConstSpan<char> binData)
     }
 
     dst[0] = '\0';
-
-    return result;
 }
-
-} // namespace internal
 
 } // namespace cmbase64

@@ -77,4 +77,28 @@ B64Text encode (const std::basic_string<C,T,A> & binData)
                     begin + (ref.size()*sizeof(C)) ));
 }
 
+inline std::size_t encodedSize (std::size_t binBytes)
+                                                CMBASE64_NOEXCEPT
+{
+    return (binBytes+2U)/3U*4U + 1U;
+}
+
+CMBASE64_API void encode (ConstSpan<char> binData, char * text)
+                                                CMBASE64_NOEXCEPT;
+
+template <typename T>
+void encode (ConstSpan<T> binData, char * text) CMBASE64_NOEXCEPT
+{
+    typedef typename std::enable_if
+                <std::is_fundamental<T>::value,T>::type
+                    must_be_fundamental_type;
+
+    ConstSpan<must_be_fundamental_type> & ref = binData;
+
+    const char * begin = reinterpret_cast<const char *>(ref.data());
+    encode (ConstSpan<char> (
+                    begin,
+                    begin + (ref.size()*sizeof(T)) ));
+}
+
 } // namespace cmbase64
