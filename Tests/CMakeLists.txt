@@ -22,5 +22,14 @@ target_link_libraries (
     Tests
     CppMoveBase64)
 
+if ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "MSVC")
+    add_custom_command (
+        TARGET Tests
+        POST_BUILD
+        COMMAND ${CMAKE_COMMAND} -E copy_if_different
+        "${CMAKE_BINARY_DIR}/Library/\$\(Configuration\)/CppMoveBase64.dll"
+        "${CMAKE_CURRENT_BINARY_DIR}/\$\(Configuration\)/")
+endif ()
+
 add_test (EncodeHello     Tests EncodeHello)
 add_test (EncodeVectorInt Tests EncodeVectorInt)
