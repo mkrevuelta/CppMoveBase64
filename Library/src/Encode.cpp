@@ -7,7 +7,7 @@
     https://github.com/mkrevuelta/CppMoveBase64
 */
 
-#include "Encode.h"
+#include <CppMoveBase64.h>
 
 namespace cmbase64
 {

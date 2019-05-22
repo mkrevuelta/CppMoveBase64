@@ -11,7 +11,6 @@
 #include <CppMoveBase64.h>
 
 #include "Buffer.h"
-#include "Encode.h"
 #include "Errors.h"
 
 namespace cmbase64
