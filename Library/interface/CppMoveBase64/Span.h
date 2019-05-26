@@ -102,6 +102,12 @@ public:
         afterLast(afterTo)
     {}
 
+    ConstSpan (Span<T> span)
+        :
+        first(span.cbegin()),
+        afterLast(span.cend())
+    {}
+
     template <class C>
     explicit ConstSpan (const C & c)
         :

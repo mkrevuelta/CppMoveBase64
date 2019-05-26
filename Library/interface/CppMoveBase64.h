@@ -8,74 +8,10 @@
 */
 
 #include "CppMoveBase64/B64Text.h"
-#include <vector>
-#include <array>
-#include <string>
+#include <stdexcept>
 
 namespace cmbase64
 {
-
-inline B64Text encode (ConstSpan<char> binData)
-{
-    return B64Text::encode (binData);
-}
-
-inline B64Text encode (ConstSpan<unsigned char> binData)
-{
-    return B64Text::encode (
-                ConstSpan<char> (
-                    reinterpret_cast<const char *>(binData.cbegin()),
-                    reinterpret_cast<const char *>(binData.cend())   ));
-}
-
-template <typename T, typename A>
-B64Text encode (const std::vector<T,A> & binData)
-{
-    typedef typename std::enable_if
-                <std::is_fundamental<T>::value,T>::type
-                    must_be_fundamental_type;
-
-    const std::vector<must_be_fundamental_type,A> & ref = binData;
-    
-    const char * begin = reinterpret_cast<const char *>(ref.data());
-    return B64Text::encode (
-                ConstSpan<char> (
-                    begin,
-                    begin + (ref.size()*sizeof(T)) ));
-}
-
-template <typename T, std::size_t N>
-B64Text encode (const std::array<T,N> & binData)
-{
-    typedef typename std::enable_if
-                <std::is_fundamental<T>::value,T>::type
-                    must_be_fundamental_type;
-
-    const std::array<must_be_fundamental_type,N> & ref = binData;
-    
-    const char * begin = reinterpret_cast<const char *>(ref.data());
-    return B64Text::encode (
-                ConstSpan<char> (
-                    begin,
-                    begin + (N*sizeof(T)) ));
-}
-
-template <typename C, typename T, typename A>
-B64Text encode (const std::basic_string<C,T,A> & binData)
-{
-    typedef typename std::enable_if
-                <std::is_fundamental<C>::value,C>::type
-                    must_be_fundamental_type;
-
-    const std::basic_string<must_be_fundamental_type,T,A>
-                & ref = binData;
-    
-    const char * begin = reinterpret_cast<const char *>(ref.data());
-    return B64Text::encode (
-                ConstSpan<char> (
-                    begin,
-                    begin + (ref.size()*sizeof(C)) ));
-}
 
 inline std::size_t encodedSize (std::size_t binBytes)
                                                 CMBASE64_NOEXCEPT
@@ -83,11 +19,20 @@ inline std::size_t encodedSize (std::size_t binBytes)
     return (binBytes+2U)/3U*4U + 1U;
 }
 
-CMBASE64_API void encode (ConstSpan<char> binData, char * text)
-                                                CMBASE64_NOEXCEPT;
+inline B64Text encode (ConstSpan<char> binData)
+{
+    B64Text result;
+    
+    result.encode (binData);
+
+    if (result.isError())
+        throw std::runtime_error (result.errorMessage());
+
+    return result;
+}
 
 template <typename T>
-void encode (ConstSpan<T> binData, char * text) CMBASE64_NOEXCEPT
+B64Text encode (ConstSpan<T> binData)
 {
     typedef typename std::enable_if
                 <std::is_fundamental<T>::value,T>::type
@@ -95,10 +40,32 @@ void encode (ConstSpan<T> binData, char * text) CMBASE64_NOEXCEPT
 
     ConstSpan<must_be_fundamental_type> & ref = binData;
 
-    const char * begin = reinterpret_cast<const char *>(ref.data());
+    return encode (
+                ConstSpan<char> (
+                    reinterpret_cast<const char *>(ref.cbegin()),
+                    reinterpret_cast<const char *>(ref.cend())   ));
+}
+
+CMBASE64_API void encode (
+                    ConstSpan<char> binSrc,
+                    Span<char> textDest)
+                            CMBASE64_NOEXCEPT;
+
+template <typename T>
+void encode (
+        ConstSpan<T> binData,
+        Span<char> text)
+                CMBASE64_NOEXCEPT
+{
+    typedef typename std::enable_if
+                <std::is_fundamental<T>::value,T>::type
+                    must_be_fundamental_type;
+
+    ConstSpan<must_be_fundamental_type> & ref = binData;
+
     encode (ConstSpan<char> (
-                    begin,
-                    begin + (ref.size()*sizeof(T)) ));
+                    reinterpret_cast<const char *>(ref.cbegin()),
+                    reinterpret_cast<const char *>(ref.cend())   ));
 }
 
 } // namespace cmbase64

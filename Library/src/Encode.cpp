@@ -25,12 +25,27 @@ static const char table[64] =
     '+', '/'
 };
 
-CMBASE64_API void encode (ConstSpan<char> binData, char * dst)
-                                                CMBASE64_NOEXCEPT
+CMBASE64_API void encode (
+                    ConstSpan<char> binSrc,
+                    Span<char> textDest)
+                            CMBASE64_NOEXCEPT
 {
-    std::size_t size = binData.size ();
+    std::size_t size = binSrc.size ();
+    std::size_t destCapacity = textDest.size ();
+
+    if (destCapacity == 0)
+        return;
+
     auto src = reinterpret_cast<const unsigned char *> (
-                                                    binData.begin ());
+                                                binSrc.begin ());
+    char * dst = textDest.begin ();
+
+    if (destCapacity < encodedSize(size))
+    {
+        dst[0] = '\0';
+        return;
+    }
+
     std::size_t tailSize = size % 3;
 
     if (size >= 3)

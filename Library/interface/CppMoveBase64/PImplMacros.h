@@ -12,6 +12,7 @@
 
 #include "ApiMacros.h"
 #include "UniquePtr.h"
+#include "ErrorStatus.h"
 
 // ------------------------------------------------------------ //
 
@@ -21,6 +22,8 @@ private:                                                         \
                                                                  \
     struct Impl;                                                 \
     UniquePtr<Impl> pImpl;                                       \
+                                                                 \
+    ErrorStatus status;                                          \
                                                                  \
 public:                                                          \
                                                                  \
@@ -55,13 +58,17 @@ inline void swap (CLASS & a, CLASS & b) CMBASE64_NOEXCEPT        \
 #define CMBASE64_IMPLEMENT_INNER_MOVE_ONLY_PIMPL(FULLNAME,CLASS) \
                                                                  \
 FULLNAME::CLASS () CMBASE64_NOEXCEPT                             \
+    :                                                            \
+    status(ErrorStatus::NoError)                                 \
 {                                                                \
 }                                                                \
                                                                  \
 FULLNAME::CLASS (FULLNAME && other) CMBASE64_NOEXCEPT            \
     :                                                            \
-    pImpl(std::move(other.pImpl))                                \
+    pImpl(std::move(other.pImpl)),                               \
+    status(other.status)                                         \
 {                                                                \
+    other.status = ErrorStatus::NoError;                         \
 }                                                                \
                                                                  \
                                                                  \
@@ -73,12 +80,18 @@ FULLNAME & FULLNAME::operator= (                                 \
                 FULLNAME && other) CMBASE64_NOEXCEPT             \
 {                                                                \
     pImpl = std::move (other.pImpl);                             \
+    status = other.status;                                       \
+    other.status = ErrorStatus::NoError;                         \
     return *this;                                                \
 }                                                                \
                                                                  \
 void FULLNAME::swap (FULLNAME & other) CMBASE64_NOEXCEPT         \
 {                                                                \
     pImpl.swap (other.pImpl);                                    \
+                                                                 \
+    ErrorStatus tmp = status;                                    \
+    status = other.status;                                       \
+    other.status = tmp;                                          \
 }
 
 // ------------------------------------------------------------ //
@@ -90,7 +103,8 @@ void FULLNAME::swap (FULLNAME & other) CMBASE64_NOEXCEPT         \
 FULLNAME::CLASS (const FULLNAME & other)                         \
     :                                                            \
     pImpl(other.pImpl ? *other.pImpl.get()                       \
-                      : Impl())                                  \
+                      : Impl()),                                 \
+    status(other.status)                                         \
 {                                                                \
 }                                                                \
                                                                  \

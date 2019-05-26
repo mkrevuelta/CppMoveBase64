@@ -23,18 +23,18 @@ class CMBASE64_API B64Text
 
 public:
 
-          char * data ();        // These return nullptr
-    const char * data () const;  // if empty
+         Span<char> span ();
+    ConstSpan<char> span () const;
 
-    const char * c_str () const; // Returns "" if empty
+    const char * c_str () const;   // Returns "" if empty
 
-    std::size_t size () const;   // Not including final '\0'
-
-    bool isOk () const;
-    bool isError () const  { return ! isOk(); }
+    bool isOk    () const { return status == ErrorStatus::NoError; }
+    bool isError () const { return ! isOk(); }
     const char * errorMessage () const;
 
-    static B64Text encode (ConstSpan<char> binData);
+    ErrorStatus reserveAtLeast (std::size_t capacity) CMBASE64_NOEXCEPT;
+
+    ErrorStatus encode (ConstSpan<char> binData) CMBASE64_NOEXCEPT;
 };
 
 CMBASE64_INLINE_SYMMETRIC_SWAP (B64Text)

@@ -25,13 +25,13 @@ private:
     T * ptr;
 
     UniquePtr<T> & operator= (const UniquePtr<T> &) { throw 0; } // disable
-    UniquePtr (T * p) CMBASE64_NOEXCEPT : ptr(p) {}
 
 public:
 
-    UniquePtr ();
-    explicit UniquePtr (const T &);
+    UniquePtr () CMBASE64_NOEXCEPT : ptr(nullptr) {}
     ~UniquePtr () CMBASE64_NOEXCEPT;
+    
+    void allocate ();
 
     UniquePtr<T> & operator= (UniquePtr<T> && other) CMBASE64_NOEXCEPT
     {
@@ -65,7 +65,7 @@ public:
 };
 
 template <typename T>
-void swap (UniquePtr<T> & a, UniquePtr<T> & b)
+void swap (UniquePtr<T> & a, UniquePtr<T> & b) CMBASE64_NOEXCEPT
 {
     a.swap (b);
 }
@@ -73,17 +73,14 @@ void swap (UniquePtr<T> & a, UniquePtr<T> & b)
 #ifdef COMPILING_CMBASE64
 
 template <typename T>
-UniquePtr<T>::UniquePtr ()
-    :
-    ptr (new T)
+void UniquePtr<T>::allocate ()
 {
-}
+    T * tmp = new T;
 
-template <typename T>
-UniquePtr<T>::UniquePtr (const T & t)
-    :
-    ptr (new T(t))
-{
+    if (ptr)
+        delete ptr;
+
+    ptr = tmp;
 }
 
 template <typename T>

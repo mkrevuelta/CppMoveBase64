@@ -19,19 +19,31 @@ namespace cmbase64
 struct B64Text::Impl
 {
     internal::Buffer buff;
-    internal::ErrInfo errInfo;
+    std::string errMessage;
 };
 
 CMBASE64_IMPLEMENT_MOVE_ONLY_PIMPL (B64Text)
 
-char * B64Text::data ()
+Span<char> B64Text::span ()
 {
-    return pImpl ? pImpl->buff.data.get () : nullptr;
+    if ( ! pImpl)
+        return Span<char>();
+
+    char * begin = pImpl->buff.data.get ();
+
+    return Span<char>(begin,
+                      begin + pImpl->buff.totalSize);
 }
 
-const char * B64Text::data () const
+ConstSpan<char> B64Text::span () const
 {
-    return pImpl ? pImpl->buff.data.get () : nullptr;
+    if ( ! pImpl)
+        return ConstSpan<char>();
+
+    const char * begin = pImpl->buff.data.get ();
+
+    return ConstSpan<char>(begin,
+                           begin + pImpl->buff.totalSize);
 }
 
 const char * B64Text::c_str () const
@@ -39,39 +51,59 @@ const char * B64Text::c_str () const
     return pImpl && pImpl->buff.data ? pImpl->buff.data.get() : "";
 }
 
-std::size_t B64Text::size () const // Discounts trailing '\0'
-{
-    return pImpl && pImpl->buff.data && pImpl->buff.totalSize>0 ?
-                                        pImpl->buff.totalSize-1 : 0;
-}
-
-bool B64Text::isOk () const
-{
-    return pImpl && ! pImpl->errInfo.what;
-}
-
 const char * B64Text::errorMessage () const
 {
-    return ! pImpl             ? "Empty, moved-from buffer" :
-           pImpl->errInfo.what ? pImpl->errInfo.what :
-                                 "All OK. No error... duh!";
+    switch (status)
+    {
+        case ErrorStatus::NoError:
+            return "All OK. No error... Duh!";
+
+        case ErrorStatus::BadAlloc:
+            return "Allocation error. Not enough memory";
+
+        case ErrorStatus::DoubleException:
+            return "Double exception. Error while storing error info";
+
+        case ErrorStatus::Exception:
+            return pImpl && ! pImpl->errMessage.empty()      ?
+                   pImpl->errMessage.c_str ()                :
+                   "Unexpected status with no error message";
+
+        default:
+            return "Unexpected error status";
+    }
 }
 
-B64Text B64Text::encode (ConstSpan<char> binData)
+ErrorStatus B64Text::encode (ConstSpan<char> binData) CMBASE64_NOEXCEPT
 {
-    B64Text result;
+    std::size_t requiredSize = encodedSize (binData.size ());
 
-    internal::runWithErrorHarness (result.pImpl->errInfo, [&]()
+    reserveAtLeast (requiredSize);
+
+    if (status == ErrorStatus::NoError)
+        cmbase64::encode (binData, span());
+
+    return status;
+}
+
+ErrorStatus B64Text::reserveAtLeast (std::size_t capacity)
+                                                      CMBASE64_NOEXCEPT
+{
+    status = ErrorStatus::NoError;
+    
+    if ( ! pImpl || pImpl->buff.totalSize < capacity)
     {
-        auto & buff = result.pImpl->buff;
+        internal::runWithErrorHarness (status, pImpl, [&]()
+        {
+            if ( ! pImpl)
+                pImpl.allocate ();
 
-        buff.totalSize = encodedSize (binData.size ());
-        buff.data.reset (new char [buff.totalSize]);
-
-        cmbase64::encode (binData, buff.data.get());
-    });
-
-    return result;
+            pImpl->buff.totalSize = capacity;
+            pImpl->buff.data.reset (new char [capacity]);
+        });
+    }
+    
+    return status;
 }
 
 } // namespace cmbase64

@@ -11,6 +11,8 @@
 #define __CPPMOVEBASE64_ERRORS_H__
 
 #include <CppMoveBase64/ApiMacros.h>
+#include <CppMoveBase64/ErrorStatus.h>
+#include <CppMoveBase64/UniquePtr.h>
 
 #include <new>
 #include <functional>
@@ -26,37 +28,35 @@ namespace cmbase64
 namespace internal
 {
 
-struct ErrInfo
-{
-    std::string message;
-    const char * what;
-};
-
-inline void runWithErrorHarness (
-                    ErrInfo & errInfo,
+template <typename I>
+void runWithErrorHarness (
+                    ErrorStatus & status,
+                    UniquePtr<I> & pImpl,
                     std::function<void(void)> task)
 {
     try
     {
-        task ();
+        status = ErrorStatus::NoError;
 
-        errInfo.what = nullptr;
+        task ();
     }
     catch (const std::bad_alloc &)
     {
-        errInfo.what = "Not enough memory";
+        status = ErrorStatus::BadAlloc;
     }
     catch (const std::exception & ex)
     {
+        status = ErrorStatus::Exception;
+
         try
         {
-            errInfo.message = ex.what ();
-
-            errInfo.what = errInfo.message.c_str ();
+            if (pImpl)
+                pImpl->errMessage = ex.what ();
+            return;
         }
         catch (...)
         {
-            errInfo.what = "Double exception";
+            status = ErrorStatus::DoubleException;
         }
     }
 }
