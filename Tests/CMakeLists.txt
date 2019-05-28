@@ -16,7 +16,8 @@ add_executable (
     Tests
     src/main.cpp
     src/TestEncodeHello
-    src/TestEncodeVectorInt)
+    src/TestEncodeVectorInt
+    src/TestEncodeStreamed)
 
 target_link_libraries (
     Tests
@@ -33,3 +34,4 @@ endif ()
 
 add_test (EncodeHello     Tests EncodeHello)
 add_test (EncodeVectorInt Tests EncodeVectorInt)
+add_test (EncodeStreamed  Tests EncodeStreamed)

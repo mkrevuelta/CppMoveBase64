@@ -15,6 +15,7 @@
 
 void testEncodeHello ();
 void testEncodeVectorInt ();
+void testEncodeStreamed ();
 
 struct
 {
@@ -25,6 +26,7 @@ testsTable [] =
 {
     { "EncodeHello",     testEncodeHello },
     { "EncodeVectorInt", testEncodeVectorInt },
+    { "EncodeStreamed",  testEncodeStreamed },
     
     { "TABLE END", nullptr }
 };
