@@ -34,7 +34,7 @@ public:
 
     ErrorStatus reserveAtLeast (std::size_t capacity) CMBASE64_NOEXCEPT;
 
-    ErrorStatus encode (ConstSpan<char> binData) CMBASE64_NOEXCEPT;
+    ErrorStatus encode (ConstSpan<char> binSrc) CMBASE64_NOEXCEPT;
 };
 
 CMBASE64_INLINE_SYMMETRIC_SWAP (B64Text)
