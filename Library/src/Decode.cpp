@@ -24,12 +24,11 @@ CMBASE64_API DecodeResult decodeFromB64TxtToBin (
 {
     DecodeResult result;
 
-    std::size_t size = textSrc.size ();
-    std::size_t destCapacity = binDest.size ();
+//--    std::size_t destCapacity = binDest.size ();
 
-    const char * src = textSrc.begin ();
-    auto dst = reinterpret_cast<unsigned char *> (
-                                        binDest.begin ());
+//--    const char * src = textSrc.begin ();
+//--    auto dst = reinterpret_cast<unsigned char *> (
+//--                                        binDest.begin ());
 
 
     //--
