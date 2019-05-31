@@ -16,6 +16,7 @@ add_library (
     CppMoveBase64
     SHARED
     src/Encode.cpp
+    src/Decode.cpp
     src/B64Text.cpp
     src/BinData.cpp)
 
