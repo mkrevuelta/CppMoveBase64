@@ -55,8 +55,11 @@ const char * B64Text::errorMessage () const
 {
     switch (status)
     {
-        case ErrorStatus::NoError:
+        case ErrorStatus::Ok:
             return "All OK. No error... Duh!";
+
+        case ErrorStatus::OkPartial:
+            return "Oops... Invalid status for B64Text (OkPartial)";
 
         case ErrorStatus::BadAlloc:
             return "Allocation error. Not enough memory";
@@ -75,13 +78,13 @@ const char * B64Text::errorMessage () const
 }
 
 ErrorStatus B64Text::encodeFromBin (ConstSpan<char> binSrc)
-												CMBASE64_NOEXCEPT
+                                                 CMBASE64_NOEXCEPT
 {
     std::size_t requiredSize = encodedSize (binSrc.size ());
 
     reserveAtLeast (requiredSize);
 
-    if (status == ErrorStatus::NoError)
+    if (status == ErrorStatus::Ok)
         cmbase64::encodeFromBinToB64Txt (binSrc, span());
 
     return status;
@@ -90,7 +93,7 @@ ErrorStatus B64Text::encodeFromBin (ConstSpan<char> binSrc)
 ErrorStatus B64Text::reserveAtLeast (std::size_t capacity)
                                                       CMBASE64_NOEXCEPT
 {
-    status = ErrorStatus::NoError;
+    status = ErrorStatus::Ok;
     
     if ( ! pImpl || pImpl->buff.totalSize < capacity)
     {

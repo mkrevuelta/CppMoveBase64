@@ -36,7 +36,7 @@ void runWithErrorHarness (
 {
     try
     {
-        status = ErrorStatus::NoError;
+        status = ErrorStatus::Ok;
 
         task ();
     }

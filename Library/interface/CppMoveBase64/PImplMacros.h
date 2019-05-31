@@ -59,7 +59,7 @@ inline void swap (CLASS & a, CLASS & b) CMBASE64_NOEXCEPT        \
                                                                  \
 FULLNAME::CLASS () CMBASE64_NOEXCEPT                             \
     :                                                            \
-    status(ErrorStatus::NoError)                                 \
+    status(ErrorStatus::Ok)                                      \
 {                                                                \
 }                                                                \
                                                                  \
@@ -68,7 +68,7 @@ FULLNAME::CLASS (FULLNAME && other) CMBASE64_NOEXCEPT            \
     pImpl(std::move(other.pImpl)),                               \
     status(other.status)                                         \
 {                                                                \
-    other.status = ErrorStatus::NoError;                         \
+    other.status = ErrorStatus::Ok;                              \
 }                                                                \
                                                                  \
                                                                  \
@@ -81,7 +81,7 @@ FULLNAME & FULLNAME::operator= (                                 \
 {                                                                \
     pImpl = std::move (other.pImpl);                             \
     status = other.status;                                       \
-    other.status = ErrorStatus::NoError;                         \
+    other.status = ErrorStatus::Ok;                              \
     return *this;                                                \
 }                                                                \
                                                                  \

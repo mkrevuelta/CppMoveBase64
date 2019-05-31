@@ -28,7 +28,7 @@ public:
 
     const char * c_str () const;   // Returns "" if empty
 
-    bool isOk    () const { return status == ErrorStatus::NoError; }
+    bool isOk    () const { return status == ErrorStatus::Ok; }
     bool isError () const { return ! isOk(); }
     const char * errorMessage () const;
 

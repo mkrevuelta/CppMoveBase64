@@ -19,6 +19,7 @@ namespace cmbase64
 struct BinData::Impl
 {
     internal::Buffer buff;
+    std::size_t size;
     std::string errMessage;
 };
 
@@ -32,7 +33,7 @@ Span<char> BinData::span ()
     char * begin = pImpl->buff.data.get ();
 
     return Span<char>(begin,
-                      begin + pImpl->buff.totalSize);
+                      begin + pImpl->size);
 }
 
 ConstSpan<char> BinData::span () const
@@ -43,15 +44,18 @@ ConstSpan<char> BinData::span () const
     const char * begin = pImpl->buff.data.get ();
 
     return ConstSpan<char>(begin,
-                           begin + pImpl->buff.totalSize);
+                           begin + pImpl->size);
 }
 
 const char * BinData::errorMessage () const
 {
     switch (status)
     {
-        case ErrorStatus::NoError:
+        case ErrorStatus::Ok:
             return "All OK. No error... Duh!";
+
+        case ErrorStatus::OkPartial:
+            return "Ok. Intermediate decoding state";
 
         case ErrorStatus::BadAlloc:
             return "Allocation error. Not enough memory";
@@ -69,14 +73,18 @@ const char * BinData::errorMessage () const
     }
 }
 
-ErrorStatus BinData::decode (ConstSpan<char> b64TxtSrc) CMBASE64_NOEXCEPT
+ErrorStatus BinData::decodeFromB64Txt (ConstSpan<char> b64TxtSrc)
+                                                           CMBASE64_NOEXCEPT
 {
     std::size_t requiredSize = decodedMaxSize (b64TxtSrc.size ());
 
     reserveAtLeast (requiredSize);
 
-    if (status == ErrorStatus::NoError)
-        cmbase64::decode (b64TxtSrc, span());
+    if (status == ErrorStatus::Ok)
+    {
+        auto result = cmbase64::decodeFromB64TxtToBin (b64TxtSrc, span());
+        //-- Set size and status (Ok/OkPartial/too small..)
+    }
 
     return status;
 }
@@ -84,7 +92,7 @@ ErrorStatus BinData::decode (ConstSpan<char> b64TxtSrc) CMBASE64_NOEXCEPT
 ErrorStatus BinData::reserveAtLeast (std::size_t capacity)
                                                       CMBASE64_NOEXCEPT
 {
-    status = ErrorStatus::NoError;
+    status = ErrorStatus::Ok;
     
     if ( ! pImpl || pImpl->buff.totalSize < capacity)
     {
@@ -95,6 +103,7 @@ ErrorStatus BinData::reserveAtLeast (std::size_t capacity)
 
             pImpl->buff.totalSize = capacity;
             pImpl->buff.data.reset (new char [capacity]);
+            pImpl->size = 0;
         });
     }
     

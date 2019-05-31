@@ -26,13 +26,16 @@ public:
          Span<char> span ();
     ConstSpan<char> span () const;
 
-    bool isOk    () const { return status == ErrorStatus::NoError; }
+    bool isFinishedOk () const { return status == ErrorStatus::Ok; }
+
+    bool isOk    () const { return status == ErrorStatus::Ok ||
+                                   status == ErrorStatus::OkPartial; }
     bool isError () const { return ! isOk(); }
     const char * errorMessage () const;
 
     ErrorStatus reserveAtLeast (std::size_t capacity) CMBASE64_NOEXCEPT;
 
-    ErrorStatus decode (ConstSpan<char> b64Text) CMBASE64_NOEXCEPT;
+    ErrorStatus decodeFromB64Txt (ConstSpan<char> b64Text) CMBASE64_NOEXCEPT;
 };
 
 CMBASE64_INLINE_SYMMETRIC_SWAP (BinData)

@@ -8,36 +8,35 @@
 */
 
 #include <CppMoveBase64.h>
+#include <CppMoveBase64/ErrorStatus.h>
 
 namespace cmbase64
 {
 
 //-- Tables
 
-//-- return enum indicating state
+
 //-- additional parameter for intermediate decoding bytes
-CMBASE64_API void decode (
+CMBASE64_API DecodeResult decodeFromB64TxtToBin (
                     ConstSpan<char> textSrc,
                     Span<char> binDest)
                             CMBASE64_NOEXCEPT
 {
+    DecodeResult result;
+
     std::size_t size = textSrc.size ();
     std::size_t destCapacity = binDest.size ();
-
-    if (destCapacity == 0)
-        return;
 
     const char * src = textSrc.begin ();
     auto dst = reinterpret_cast<unsigned char *> (
                                         binDest.begin ());
 
-    if (destCapacity < encodedSize(size))
-    {
-        dst[0] = '\0';
-        return;
-    }
 
     //--
+    result.size = 0;
+    result.outcome = DecodeResult::Outcome::OkPartial;
+
+    return result;
 }
 
 } // namespace cmbase64

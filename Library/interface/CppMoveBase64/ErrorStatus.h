@@ -18,7 +18,7 @@ namespace cmbase64
 
 enum class ErrorStatus : int8_t
 {
-    NoError, Exception, BadAlloc, DoubleException
+    Ok, OkPartial, Exception, BadAlloc, DoubleException
 };
 
 } // namespace cmbase64

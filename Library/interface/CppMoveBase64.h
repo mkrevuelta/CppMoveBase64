@@ -77,12 +77,22 @@ void encodeFromBinToB64Txt (
             textDest);
 }
 
-CMBASE64_API void decode (
+struct DecodeResult
+{
+    enum class Outcome
+    {
+        OkDone, OkPartial, DestSpanIsTooSmall
+    };
+
+    std::size_t size;
+    Outcome outcome;
+};
+
+CMBASE64_API DecodeResult decodeFromB64TxtToBin (
                     ConstSpan<char> textSrc,
                     Span<char> binDest)
                             CMBASE64_NOEXCEPT;
 
-//-- return enum indicating state
 //-- additional parameter for intermediate decoding bytes
 //-- template overloads...
 
