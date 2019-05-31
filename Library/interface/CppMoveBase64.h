@@ -8,6 +8,7 @@
 */
 
 #include "CppMoveBase64/B64Text.h"
+#include "CppMoveBase64/BinData.h"
 #include <stdexcept>
 
 namespace cmbase64
@@ -19,10 +20,16 @@ inline std::size_t encodedSize (std::size_t binSrcSizeInBytes)
     return (binSrcSizeInBytes+2U)/3U*4U + 1U;
 }
 
+inline std::size_t decodedMaxSize (std::size_t b64TextSrcSizeInChars)
+                                                CMBASE64_NOEXCEPT
+{
+    return (b64TextSrcSizeInChars+3U)/4U*3U;
+}
+
 inline B64Text encode (ConstSpan<char> binSrc)
 {
     B64Text result;
-    
+
     result.encode (binSrc);
 
     if (result.isError())
@@ -68,5 +75,14 @@ void encode (
                     reinterpret_cast<const char *>(ref.cend())   ),
             textDest);
 }
+
+CMBASE64_API void decode (
+                    ConstSpan<char> textSrc,
+                    Span<char> binDest)
+                            CMBASE64_NOEXCEPT;
+
+//-- return enum indicating state
+//-- additional parameter for intermediate decoding bytes
+//-- template overloads...
 
 } // namespace cmbase64
