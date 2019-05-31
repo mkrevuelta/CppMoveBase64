@@ -74,14 +74,15 @@ const char * B64Text::errorMessage () const
     }
 }
 
-ErrorStatus B64Text::encode (ConstSpan<char> binSrc) CMBASE64_NOEXCEPT
+ErrorStatus B64Text::encodeFromBin (ConstSpan<char> binSrc)
+												CMBASE64_NOEXCEPT
 {
     std::size_t requiredSize = encodedSize (binSrc.size ());
 
     reserveAtLeast (requiredSize);
 
     if (status == ErrorStatus::NoError)
-        cmbase64::encode (binSrc, span());
+        cmbase64::encodeFromBinToB64Txt (binSrc, span());
 
     return status;
 }

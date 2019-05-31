@@ -28,7 +28,8 @@ void testEncodeVectorInt ()
     for (int32_t i : v)
         std::cout << "  " << i;
     std::cout << std::endl;
-    auto numsB64 = cmbase64::encode (cmbase64::ConstSpan<int32_t>(v));
+    auto numsB64 = cmbase64::encodeFromBin (
+                                        cmbase64::ConstSpan<int32_t>(v));
     std::cout << "Base64:  " << numsB64.c_str() << std::endl;
 
     if (std::string(numsB64.c_str()) != "AQAAACoAAAD9////AAAAAP////8=")

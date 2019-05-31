@@ -25,7 +25,7 @@ static const char table[64] =
     '+', '/'
 };
 
-CMBASE64_API void encode (
+CMBASE64_API void encodeFromBinToB64Txt (
                     ConstSpan<char> binSrc,
                     Span<char> textDest)
                             CMBASE64_NOEXCEPT
