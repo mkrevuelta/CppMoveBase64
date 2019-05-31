@@ -80,13 +80,39 @@ ErrorStatus BinData::decodeFromB64Txt (ConstSpan<char> b64TxtSrc)
 
     reserveAtLeast (requiredSize);
 
-    if (status == ErrorStatus::Ok)
-    {
-        auto result = cmbase64::decodeFromB64TxtToBin (b64TxtSrc, span());
-        //-- Set size and status (Ok/OkPartial/too small..)
-    }
+    if (status != ErrorStatus::Ok)
+		return status;
 
-    return status;
+	char * begin = pImpl->buff.data.get ();
+	std::size_t reservedSize = pImpl->buff.totalSize;
+
+    auto result = cmbase64::decodeFromB64TxtToBin (
+							b64TxtSrc,
+                            Span<char>(begin,
+                                        begin + reservedSize));
+	pImpl->size = result.size;
+
+	switch (result.outcome)
+	{
+	case DecodeResult::Outcome::OkDone:
+		status = ErrorStatus::Ok;
+		break;
+
+	case DecodeResult::Outcome::OkPartial:
+		status = ErrorStatus::OkPartial;
+		break;
+
+	case DecodeResult::Outcome::DestSpanIsTooSmall:
+	    internal::runWithErrorHarness (status, pImpl, [&]()
+		{
+			throw std::runtime_error ("Unexpected end of buffer");
+		});
+		break;
+
+	//-- Other cases (invalid input...?)
+	}
+
+	return status;
 }
 
 ErrorStatus BinData::reserveAtLeast (std::size_t capacity)
