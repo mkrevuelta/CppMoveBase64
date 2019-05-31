@@ -30,7 +30,7 @@ public:
 
     UniquePtr () CMBASE64_NOEXCEPT : ptr(nullptr) {}
     ~UniquePtr () CMBASE64_NOEXCEPT;
-    
+
     void allocate ();
 
     UniquePtr<T> & operator= (UniquePtr<T> && other) CMBASE64_NOEXCEPT

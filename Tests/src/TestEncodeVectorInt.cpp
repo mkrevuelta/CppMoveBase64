@@ -17,7 +17,7 @@
 void testEncodeVectorInt ()
 {
     std::vector<int32_t> v;
-    
+
     v.push_back (1);
     v.push_back (42);
     v.push_back (-3);

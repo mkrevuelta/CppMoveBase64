@@ -20,7 +20,7 @@ void testEncodeHello ()
     auto helloB64 = cmbase64::encodeFromBin (
                                       cmbase64::ConstSpan<char>(hello));
     std::cout << "Base64: " << helloB64.c_str() << std::endl;
-    
+
     if (std::string(helloB64.c_str()) != "SGVsbG8gd29ybGQh")
         throw std::runtime_error ("The encoded string is wrong");
 }

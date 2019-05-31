@@ -12,7 +12,10 @@
 namespace cmbase64
 {
 
-static const char table[64] =
+namespace
+{
+
+const char table[64] =
 {
     'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M',
     'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z',
@@ -24,6 +27,8 @@ static const char table[64] =
 
     '+', '/'
 };
+
+} // anonymous namespace
 
 CMBASE64_API void encodeFromBinToB64Txt (
                     ConstSpan<char> binSrc,

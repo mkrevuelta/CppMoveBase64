@@ -41,7 +41,7 @@ static void testEncodeStreamed (std::size_t numBlocks)
 
     std::string helloB64 = oss.str ();
     std::cout << "Base64: " << helloB64.c_str() << std::endl;
-    
+
     if (std::string(helloB64.c_str()) != "SGVsbG8gd29ybGQh")
         throw std::runtime_error ("The encoded string is wrong");
 }

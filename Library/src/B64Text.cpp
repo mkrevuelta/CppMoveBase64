@@ -94,7 +94,7 @@ ErrorStatus B64Text::reserveAtLeast (std::size_t capacity)
                                                       CMBASE64_NOEXCEPT
 {
     status = ErrorStatus::Ok;
-    
+
     if ( ! pImpl || pImpl->buff.totalSize < capacity)
     {
         internal::runWithErrorHarness (status, pImpl, [&]()
@@ -106,7 +106,7 @@ ErrorStatus B64Text::reserveAtLeast (std::size_t capacity)
             pImpl->buff.data.reset (new char [capacity]);
         });
     }
-    
+
     return status;
 }
 

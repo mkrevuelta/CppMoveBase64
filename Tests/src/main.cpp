@@ -27,7 +27,7 @@ testsTable [] =
     { "EncodeHello",     testEncodeHello },
     { "EncodeVectorInt", testEncodeVectorInt },
     { "EncodeStreamed",  testEncodeStreamed },
-    
+
     { "TABLE END", nullptr }
 };
 
@@ -39,21 +39,21 @@ int main (int argc, const char * argv[])
     {
         if (argc != 2)
             throw std::runtime_error ("Error: incorrect parameters");
-        
+
         std::string testName (argv[1]);
 
         unsigned count = 0;
-        
+
         for (unsigned i=0; testsTable[i].function; i++)
             if (testName==allTestsName || testName==testsTable[i].name)
             {
                 std::cout << std::string (40, '=') << std::endl;
-                          
+
                 std::cout << "Running test "
                           << testsTable[i].name << std::endl;
-                          
+
                 testsTable[i].function ();
-                
+
                 count ++;
             }
 
@@ -69,6 +69,6 @@ int main (int argc, const char * argv[])
         std::cerr << ex.what () << std::endl;
         throw;
     }
-    
+
     return 0;
 }

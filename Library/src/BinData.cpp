@@ -81,45 +81,45 @@ ErrorStatus BinData::decodeFromB64Txt (ConstSpan<char> b64TxtSrc)
     reserveAtLeast (requiredSize);
 
     if (status != ErrorStatus::Ok)
-		return status;
+        return status;
 
-	char * begin = pImpl->buff.data.get ();
-	std::size_t reservedSize = pImpl->buff.totalSize;
+    char * begin = pImpl->buff.data.get ();
+    std::size_t reservedSize = pImpl->buff.totalSize;
 
     auto result = cmbase64::decodeFromB64TxtToBin (
-							b64TxtSrc,
+                            b64TxtSrc,
                             Span<char>(begin,
                                         begin + reservedSize));
-	pImpl->size = result.size;
+    pImpl->size = result.size;
 
-	switch (result.outcome)
-	{
-	case DecodeResult::Outcome::OkDone:
-		status = ErrorStatus::Ok;
-		break;
+    switch (result.outcome)
+    {
+    case DecodeResult::Outcome::OkDone:
+        status = ErrorStatus::Ok;
+        break;
 
-	case DecodeResult::Outcome::OkPartial:
-		status = ErrorStatus::OkPartial;
-		break;
+    case DecodeResult::Outcome::OkPartial:
+        status = ErrorStatus::OkPartial;
+        break;
 
-	case DecodeResult::Outcome::DestSpanIsTooSmall:
-	    internal::runWithErrorHarness (status, pImpl, [&]()
-		{
-			throw std::runtime_error ("Unexpected end of buffer");
-		});
-		break;
+    case DecodeResult::Outcome::DestSpanIsTooSmall:
+        internal::runWithErrorHarness (status, pImpl, [&]()
+        {
+            throw std::runtime_error ("Unexpected end of buffer");
+        });
+        break;
 
-	//-- Other cases (invalid input...?)
-	}
+    //-- Other cases (invalid input...?)
+    }
 
-	return status;
+    return status;
 }
 
 ErrorStatus BinData::reserveAtLeast (std::size_t capacity)
                                                       CMBASE64_NOEXCEPT
 {
     status = ErrorStatus::Ok;
-    
+
     if ( ! pImpl || pImpl->buff.totalSize < capacity)
     {
         internal::runWithErrorHarness (status, pImpl, [&]()
@@ -132,7 +132,7 @@ ErrorStatus BinData::reserveAtLeast (std::size_t capacity)
             pImpl->size = 0;
         });
     }
-    
+
     return status;
 }
 
