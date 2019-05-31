@@ -19,7 +19,7 @@
 namespace cmbase64
 {
 
-inline void encode (
+inline void encodeFromBinToB64Txt (
                 std::istream & is,
                 std::ostream & os,
                 std::size_t numBlocks = 0)
@@ -38,8 +38,9 @@ inline void encode (
         if (binReadSize == 0 || is.bad())
             return;
 
-        encode (ConstSpan<char> (bin.data(),
-                                 bin.data() + binReadSize),
+        encodeFromBinToB64Txt (
+                     ConstSpan<char> (bin.data(),
+                                      bin.data() + binReadSize),
                      Span<char> (text));
 
         os << text.data ();

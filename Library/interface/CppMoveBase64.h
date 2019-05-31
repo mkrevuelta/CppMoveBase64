@@ -26,11 +26,11 @@ inline std::size_t decodedMaxSize (std::size_t b64TextSrcSizeInChars)
     return (b64TextSrcSizeInChars+3U)/4U*3U;
 }
 
-inline B64Text encode (ConstSpan<char> binSrc)
+inline B64Text encodeFromBin (ConstSpan<char> binSrc)
 {
     B64Text result;
 
-    result.encode (binSrc);
+    result.encodeFromBin (binSrc);
 
     if (result.isError())
         throw std::runtime_error (result.errorMessage());
@@ -39,7 +39,7 @@ inline B64Text encode (ConstSpan<char> binSrc)
 }
 
 template <typename T>
-B64Text encode (ConstSpan<T> binSrc)
+B64Text encodeFromBin (ConstSpan<T> binSrc)
 {
     typedef typename std::enable_if
                 <std::is_fundamental<T>::value,T>::type
@@ -47,19 +47,19 @@ B64Text encode (ConstSpan<T> binSrc)
 
     ConstSpan<must_be_fundamental_type> & ref = binSrc;
 
-    return encode (
+    return encodeFromBin (
                 ConstSpan<char> (
                     reinterpret_cast<const char *>(ref.cbegin()),
                     reinterpret_cast<const char *>(ref.cend())   ));
 }
 
-CMBASE64_API void encode (
+CMBASE64_API void encodeFromBinToB64Txt (
                     ConstSpan<char> binSrc,
                     Span<char> textDest)
                             CMBASE64_NOEXCEPT;
 
 template <typename T>
-void encode (
+void encodeFromBinToB64Txt (
         ConstSpan<T> binSrc,
         Span<char> textDest)
                 CMBASE64_NOEXCEPT
@@ -70,7 +70,8 @@ void encode (
 
     ConstSpan<must_be_fundamental_type> & ref = binSrc;
 
-    encode (ConstSpan<char> (
+    encodeFromBinToB64Txt (
+            ConstSpan<char> (
                     reinterpret_cast<const char *>(ref.cbegin()),
                     reinterpret_cast<const char *>(ref.cend())   ),
             textDest);

@@ -35,9 +35,9 @@ static void testEncodeStreamed (std::size_t numBlocks)
     iss.write (hello.data(), hello.size());
 
     if (numBlocks > 0)
-        cmbase64::encode (iss, oss, numBlocks);
+        cmbase64::encodeFromBinToB64Txt (iss, oss, numBlocks);
     else
-        cmbase64::encode (iss, oss);
+        cmbase64::encodeFromBinToB64Txt (iss, oss);
 
     std::string helloB64 = oss.str ();
     std::cout << "Base64: " << helloB64.c_str() << std::endl;

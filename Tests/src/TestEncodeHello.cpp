@@ -17,7 +17,8 @@ void testEncodeHello ()
 {
     std::string hello ("Hello world!");
     std::cout << "Text:   " << hello << std::endl;
-    auto helloB64 = cmbase64::encode (cmbase64::ConstSpan<char>(hello));
+    auto helloB64 = cmbase64::encodeFromBin (
+                                      cmbase64::ConstSpan<char>(hello));
     std::cout << "Base64: " << helloB64.c_str() << std::endl;
     
     if (std::string(helloB64.c_str()) != "SGVsbG8gd29ybGQh")
