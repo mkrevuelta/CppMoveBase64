@@ -89,7 +89,7 @@ ErrorStatus BinData::decodeFromB64Txt (ConstSpan<char> b64TxtSrc)
     auto result = cmbase64::decodeFromB64TxtToBin (
                             b64TxtSrc,
                             Span<char>(begin,
-                                        begin + reservedSize));
+                                       begin + reservedSize));
     pImpl->size = result.size;
 
     switch (result.outcome)

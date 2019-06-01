@@ -78,6 +78,18 @@ void encodeFromBinToB64Txt (
             textDest);
 }
 
+inline BinData decodeFromB64Txt (ConstSpan<char> b64TxtSrc)
+{
+    BinData result;
+
+    result.decodeFromB64Txt (b64TxtSrc);
+
+    if (result.isError())
+        throw std::runtime_error (result.errorMessage());
+
+    return result;
+}
+
 struct DecodeResult
 {
     enum class Outcome
@@ -96,6 +108,20 @@ CMBASE64_API DecodeResult decodeFromB64TxtToBin (
                     bool toBeContinued = false)
                             CMBASE64_NOEXCEPT;
 
-//-- template overloads...
+inline DecodeResult decodeFromB64TxtToBin (
+                    ConstSpan<char> textSrc,
+                    Span<unsigned char> binDest,
+                    DecIntermState * intermState = nullptr,
+                    bool toBeContinued = false)
+                            CMBASE64_NOEXCEPT
+{
+    return decodeFromB64TxtToBin (
+            textSrc,
+            Span<char> (
+                    reinterpret_cast<char *>(binDest.begin()),
+                    reinterpret_cast<char *>(binDest.end())   ),
+            intermState,
+            toBeContinued);
+}
 
 } // namespace cmbase64
