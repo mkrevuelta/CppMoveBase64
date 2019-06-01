@@ -90,7 +90,9 @@ struct DecodeResult
 
 CMBASE64_API DecodeResult decodeFromB64TxtToBin (
                     ConstSpan<char> textSrc,
-                    Span<char> binDest)
+                    Span<char> binDest,
+                    void * = nullptr, //--
+                    bool toBeContinued = false)
                             CMBASE64_NOEXCEPT;
 
 //-- additional parameter for intermediate decoding bytes

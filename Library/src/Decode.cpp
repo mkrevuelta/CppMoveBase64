@@ -62,21 +62,25 @@ const unsigned char table[256] =
 //-- additional parameter to indicate what to do if input ends in the middle of a pack without '=' (a "to be continued" flag)
 CMBASE64_API DecodeResult decodeFromB64TxtToBin (
                     ConstSpan<char> textSrc,
-                    Span<char> binDest)
+                    Span<char> binDest,
+                    void *, //--
+                    bool toBeContinued)
                             CMBASE64_NOEXCEPT
 {
     DecodeResult result;
 
     unsigned char unpacked[4];
     unsigned unpackedCount = 0;
+    bool endingMarkFound = false;
 
     //-- If a previous state is received, copy to unpacked and update unpackedCount accordingly
 
 //--    std::size_t destCapacity = binDest.size ();
 
 //--    const char * src = textSrc.begin ();
-//--    auto dst = reinterpret_cast<unsigned char *> (
-//--                                        binDest.begin ());
+    auto dst = reinterpret_cast<unsigned char *> (
+                                        binDest.begin ());
+    std::size_t dstRoom = binDest.size();
 
     for (char b64char : textSrc)
     {
@@ -89,23 +93,58 @@ CMBASE64_API DecodeResult decodeFromB64TxtToBin (
             continue;
 
         if (value == equal)
+        {
+            endingMarkFound = true;
             break;
+        }
 
         unpacked[unpackedCount++] = value;
 
         if (unpackedCount < 4)
             continue;
 
-        //-- Pack the bits in 3 bytes and store them in destination buffer (if they fit!)
+        if (dstRoom < 3)
+            break;
+
+        //-- Pack the bits in 3 bytes and store them in destination buffer
+        dst[0] = unpacked[0] ^ unpacked[1]; //--
+        dst[1] = unpacked[1] ^ unpacked[2]; //--
+        dst[2] = unpacked[2] ^ unpacked[3]; //--
+
+        dst += 3;
+        dstRoom -= 3;
+        unpackedCount = 0;
     }
 
-    //-- if (unpackedCount > 0)
-    //--     Pack the bits in 1 or 2 bytes and store them in destination buffer (if they fit!)
-    //--     Or put them in the intermediate state if they don't fit in the output
+    if (unpackedCount > 0 &&
+        (endingMarkFound || !toBeContinued)) //-- || no intermediate state buffer provided
+    {
+        if (dstRoom < unpackedCount-1)
+        {
+            result.size = 0;
+            result.outcome = DecodeResult::Outcome::DestSpanIsTooSmall;
+            return result;
+        }
 
-    //--
-    result.size = 0;
-    result.outcome = DecodeResult::Outcome::OkPartial;
+        //-- Pack the bits in 1 or 2 bytes and store them in destination buffer
+
+        dst += unpackedCount - 1;
+        dstRoom -= unpackedCount - 1;
+        unpackedCount = 0;
+    }
+
+    if (unpackedCount > 0) //-- && intermediate state buffer provided
+    {
+        //-- Put pending bits in the intermediate state buffer
+        result.outcome = DecodeResult::Outcome::OkPartial;
+    }
+    else
+    {
+        //-- Reset intermediate state buffer
+        result.outcome = DecodeResult::Outcome::OkDone;
+    }
+
+    result.size = binDest.size() - dstRoom;
 
     return result;
 }
