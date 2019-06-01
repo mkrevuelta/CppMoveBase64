@@ -23,3 +23,26 @@ Base64 encoder/decoder for C++ 11 and above (move semantics, yet highly compatib
 3. This compatibility **scales** as your project grows
    * Let's say you use this library and some other libraries in your program...
    * Then, objects provided by CppMoveBase64 can travel around safely from one library/program to another, even though each one has been generated with a different version of the compiler
+
+## Basic encoding usage
+
+```C++
+std::string binaryData("Hello world!!");
+
+std::cout << "Text:   " << binaryData << std::endl;
+
+auto b64Text = cmbase64::encodeFromBin (
+                   cmbase64::ConstSpan<char>(binaryData));
+
+std::cout << "Base64: " << b64Text.c_str() << std::endl;
+```
+
+The input in this example is a `std::string` just for the sake of clarity and simplicity. You can replace it with a `std::vector`, a `std::array`, or anything with `data()` and `size()` on its interface.
+
+Oh, and the elements can be of type `char`, `unsigned char`, or any fundamental type (`int`, `double`...). However, note that if you use multi-byte elements, endianness does matter.
+
+The code fragment above prints:
+```
+Text:   Hello world!!
+Base64: SGVsbG8gd29ybGQhIQ==
+```
