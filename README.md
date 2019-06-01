@@ -1,7 +1,13 @@
 # CppMoveBase64
 Base64 encoder/decoder for C++ 11 and above (move semantics, yet highly compatible across compiler versions)
 
-![CppMoveBase64 build status](https://api.travis-ci.com/mkrevuelta/CppMoveBase64.png "CppMoveBase64 build status") See in [Travis-CI](https://travis-ci.com/mkrevuelta/CppMoveBase64)
+## Current status
+
+![CppMoveBase64 build status](https://api.travis-ci.com/mkrevuelta/CppMoveBase64.png "CppMoveBase64 build status")  See details in [Travis-CI](https://travis-ci.com/mkrevuelta/CppMoveBase64)
+
+* Functionality has just been completed (as of 2019/06/01)
+* Tests are only running the basic stuff
+* **Feedback is appreciated**
 
 ## Why is this library special?
 
