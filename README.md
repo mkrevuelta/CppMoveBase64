@@ -71,7 +71,7 @@ Base64: SGVsbG8gd29ybGQhIQ==
 Text:   Hello world!!
 ```
 
-The resulting object `binaryData` contains `char` elements. You can access then througth the `span()` function. For example, you could construct a `std::string` copying the data:
+The resulting object `binaryData` contains `char` elements. You can access them througth the `span()` function. For example, you could construct a `std::string` copying the data:
 ```
 std::string copy (binaryData.span().data(),
                   binaryData.span().size());
