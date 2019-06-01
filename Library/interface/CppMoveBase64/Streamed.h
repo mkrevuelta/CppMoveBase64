@@ -48,6 +48,42 @@ inline void encodeFromBinToB64Txt (
     while (os);
 }
 
+inline void decodeFromB64TxtToBin (
+                std::istream & is,
+                std::ostream & os,
+                std::size_t numBlocks = 0)
+{
+    if (numBlocks == 0)
+        numBlocks = 128U;
+
+    std::vector<char> bin ((numBlocks+1) * 3U);
+    std::vector<char> text (numBlocks * 4U);
+    DecIntermState intermState;
+
+    do
+    {
+        is.read (text.data(), text.size());
+        std::size_t textReadSize = is.gcount ();
+
+        if ((textReadSize == 0 && intermState.empty()) || is.bad())
+            return;
+
+        auto result = decodeFromB64TxtToBin (
+                     ConstSpan<char> (text.data(),
+                                      text.data() + textReadSize),
+                     Span<char> (bin),
+                     &intermState,
+                     !is.eof());
+
+        if (result.outcome != DecodeResult::Outcome::OkDone &&
+            result.outcome != DecodeResult::Outcome::OkPartial)
+            return;
+
+        os.write (bin.data(), result.size);
+    }
+    while (os);
+}
+
 } // namespace cmbase64
 
 #endif // __CPPMOVEBASE64_STREAMED_H__

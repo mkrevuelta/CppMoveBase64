@@ -124,4 +124,25 @@ inline DecodeResult decodeFromB64TxtToBin (
             toBeContinued);
 }
 
+template <typename T>
+DecodeResult decodeFromB64TxtToBin (
+                    ConstSpan<char> textSrc,
+                    Span<T> binDest)
+                            CMBASE64_NOEXCEPT
+{
+    typedef typename std::enable_if
+                <std::is_fundamental<T>::value,T>::type
+                    must_be_fundamental_type;
+
+    Span<must_be_fundamental_type> & ref = binDest;
+
+    return decodeFromB64TxtToBin (
+            textSrc,
+            Span<char> (
+                    reinterpret_cast<char *>(binDest.begin()),
+                    reinterpret_cast<char *>(binDest.end())   ),
+            nullptr,
+            false);
+}
+
 } // namespace cmbase64

@@ -40,8 +40,8 @@ static void testEncodeStreamed (std::size_t numBlocks)
         cmbase64::encodeFromBinToB64Txt (iss, oss);
 
     std::string helloB64 = oss.str ();
-    std::cout << "Base64: " << helloB64.c_str() << std::endl;
+    std::cout << "Base64: " << helloB64 << std::endl;
 
-    if (std::string(helloB64.c_str()) != "SGVsbG8gd29ybGQh")
+    if (helloB64 != "SGVsbG8gd29ybGQh")
         throw std::runtime_error ("The encoded string is wrong");
 }

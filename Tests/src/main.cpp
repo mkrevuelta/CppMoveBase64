@@ -17,6 +17,8 @@ void testEncodeHello ();
 void testEncodeVectorInt ();
 void testEncodeStreamed ();
 
+void testDecodeStreamed ();
+
 void testDecodeOldStyleHello ();
 
 struct
@@ -29,6 +31,8 @@ testsTable [] =
     { "EncodeHello",         testEncodeHello },
     { "EncodeVectorInt",     testEncodeVectorInt },
     { "EncodeStreamed",      testEncodeStreamed },
+
+    { "DecodeStreamed",      testDecodeStreamed },
 
     { "DecodeOldStyleHello", testDecodeOldStyleHello },
 
