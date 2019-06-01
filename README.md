@@ -46,3 +46,35 @@ The code fragment above prints:
 Text:   Hello world!!
 Base64: SGVsbG8gd29ybGQhIQ==
 ```
+
+## Basic decoding usage
+
+```C++
+std::string b64Text("SGVsbG8gd29ybGQhIQ==");
+
+std::cout << "Base64: " << b64Text << std::endl;
+
+auto binaryData = cmbase64::decodeFromB64Txt (
+                      cmbase64::ConstSpan<char>(b64Text));
+
+std::cout << "Text:   ";
+
+for (char c : binaryData.span())
+    std::cout << c;
+
+std::cout << std::endl;
+```
+
+The code fragment above prints:
+```
+Base64: SGVsbG8gd29ybGQhIQ==
+Text:   Hello world!!
+```
+
+The resulting object `binaryData` contains `char` elements. You can access then througth the `span()` function. For example, you could construct a `std::string` copying the data:
+```
+std::string copy (binaryData.span().data(),
+                  binaryData.span().size());
+```
+
+If you need to decode to other fundamental types (`int`, `double`...), then you can use `cmbase64::decodeFromB64TxtToBin()` instead.
