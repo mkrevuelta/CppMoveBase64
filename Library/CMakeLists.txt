@@ -18,7 +18,8 @@ add_library (
     src/Encode.cpp
     src/Decode.cpp
     src/B64Text.cpp
-    src/BinData.cpp)
+    src/BinData.cpp
+    src/DecIntermState.cpp)
 
 set_target_properties (
     CppMoveBase64

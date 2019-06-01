@@ -17,6 +17,8 @@ void testEncodeHello ();
 void testEncodeVectorInt ();
 void testEncodeStreamed ();
 
+void testDecodeOldStyleHello ();
+
 struct
 {
     const char * name;
@@ -24,9 +26,11 @@ struct
 }
 testsTable [] =
 {
-    { "EncodeHello",     testEncodeHello },
-    { "EncodeVectorInt", testEncodeVectorInt },
-    { "EncodeStreamed",  testEncodeStreamed },
+    { "EncodeHello",         testEncodeHello },
+    { "EncodeVectorInt",     testEncodeVectorInt },
+    { "EncodeStreamed",      testEncodeStreamed },
+
+    { "DecodeOldStyleHello", testDecodeOldStyleHello },
 
     { "TABLE END", nullptr }
 };

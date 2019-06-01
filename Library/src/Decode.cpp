@@ -9,9 +9,37 @@
 
 #include <CppMoveBase64.h>
 #include <CppMoveBase64/ErrorStatus.h>
+#include <CppMoveBase64/DecIntermState.h>
 
 namespace cmbase64
 {
+
+namespace internal
+{
+
+class DecIntermStateAccessor
+{
+public:
+    static void setPending (
+                    DecIntermState & intermState,
+                    ConstSpan<unsigned char> bytes)
+    {
+        intermState.setPending (bytes);
+    }
+
+    static ConstSpan<unsigned char> getPending (
+                    const DecIntermState & intermState)
+    {
+        return intermState.getPending ();
+    }
+
+    static void clear (DecIntermState & intermState)
+    {
+        intermState.clear ();
+    }
+};
+
+} // namespace internal
 
 namespace
 {
@@ -58,12 +86,10 @@ const unsigned char table[256] =
 
 } // anonymous namespace
 
-//-- additional parameter for intermediate decoding bytes
-//-- additional parameter to indicate what to do if input ends in the middle of a pack without '=' (a "to be continued" flag)
 CMBASE64_API DecodeResult decodeFromB64TxtToBin (
                     ConstSpan<char> textSrc,
                     Span<char> binDest,
-                    void *, //--
+                    DecIntermState * intermState,
                     bool toBeContinued)
                             CMBASE64_NOEXCEPT
 {
@@ -73,11 +99,15 @@ CMBASE64_API DecodeResult decodeFromB64TxtToBin (
     unsigned unpackedCount = 0;
     bool endingMarkFound = false;
 
-    //-- If a previous state is received, copy to unpacked and update unpackedCount accordingly
+    if (intermState && ! intermState->empty())
+    {
+        auto pending = internal::DecIntermStateAccessor::
+                            getPending (*intermState);
 
-//--    std::size_t destCapacity = binDest.size ();
+        for (unsigned char c : pending)
+            unpacked[unpackedCount++] = c;
+    }
 
-//--    const char * src = textSrc.begin ();
     auto dst = reinterpret_cast<unsigned char *> (
                                         binDest.begin ());
     std::size_t dstRoom = binDest.size();
@@ -89,8 +119,15 @@ CMBASE64_API DecodeResult decodeFromB64TxtToBin (
 
         unsigned char value = table[static_cast<unsigned char>(b64char)];
 
-        if (value == space || value == na)  //-- Skip invalid input characters. TODO: return error, maybe?
+        if (value == space)
             continue;
+
+        if (value == na)
+        {
+            result.size = 0;
+            result.outcome = DecodeResult::Outcome::InvalidInput;
+            return result;
+        }
 
         if (value == equal)
         {
@@ -106,10 +143,9 @@ CMBASE64_API DecodeResult decodeFromB64TxtToBin (
         if (dstRoom < 3)
             break;
 
-        //-- Pack the bits in 3 bytes and store them in destination buffer
-        dst[0] = unpacked[0] ^ unpacked[1]; //--
-        dst[1] = unpacked[1] ^ unpacked[2]; //--
-        dst[2] = unpacked[2] ^ unpacked[3]; //--
+        dst[0] = (unpacked[0] << 2) | (unpacked[1] >> 4);
+        dst[1] = (unpacked[1] << 4) | (unpacked[2] >> 2);
+        dst[2] = (unpacked[2] << 6) |  unpacked[3];
 
         dst += 3;
         dstRoom -= 3;
@@ -117,7 +153,7 @@ CMBASE64_API DecodeResult decodeFromB64TxtToBin (
     }
 
     if (unpackedCount > 0 &&
-        (endingMarkFound || !toBeContinued)) //-- || no intermediate state buffer provided
+        (endingMarkFound || !toBeContinued || !intermState))
     {
         if (dstRoom < unpackedCount-1)
         {
@@ -126,21 +162,38 @@ CMBASE64_API DecodeResult decodeFromB64TxtToBin (
             return result;
         }
 
-        //-- Pack the bits in 1 or 2 bytes and store them in destination buffer
+        if (unpackedCount < 2)
+        {
+            result.size = 0;
+            result.outcome = DecodeResult::Outcome::InvalidInput;
+            return result;
+        }
+
+        dst[0] = (unpacked[0] << 2) | (unpacked[1] >> 4);
+
+        if (unpackedCount > 2)
+            dst[1] = (unpacked[1] << 4) | (unpacked[2] >> 2);
 
         dst += unpackedCount - 1;
         dstRoom -= unpackedCount - 1;
         unpackedCount = 0;
     }
 
-    if (unpackedCount > 0) //-- && intermediate state buffer provided
+    if (unpackedCount > 0)
     {
-        //-- Put pending bits in the intermediate state buffer
+        internal::DecIntermStateAccessor::setPending (
+                *intermState,
+                ConstSpan<unsigned char> (
+                        unpacked,
+                        unpacked + unpackedCount));
+                
         result.outcome = DecodeResult::Outcome::OkPartial;
     }
     else
     {
-        //-- Reset intermediate state buffer
+        if (intermState)
+            internal::DecIntermStateAccessor::clear (*intermState);
+
         result.outcome = DecodeResult::Outcome::OkDone;
     }
 

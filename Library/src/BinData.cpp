@@ -105,11 +105,18 @@ ErrorStatus BinData::decodeFromB64Txt (ConstSpan<char> b64TxtSrc)
     case DecodeResult::Outcome::DestSpanIsTooSmall:
         internal::runWithErrorHarness (status, pImpl, [&]()
         {
-            throw std::runtime_error ("Unexpected end of buffer");
+            throw std::runtime_error (
+                "Unexpected end of buffer while decoding Base64");
         });
         break;
 
-    //-- Other cases (invalid input...?)
+    case DecodeResult::Outcome::InvalidInput:
+        internal::runWithErrorHarness (status, pImpl, [&]()
+        {
+            throw std::runtime_error (
+                "Invalid input character while decoding Base64");
+        });
+        break;
     }
 
     return status;

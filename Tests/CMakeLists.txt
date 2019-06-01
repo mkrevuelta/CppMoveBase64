@@ -15,9 +15,10 @@ include_directories (${CMAKE_CURRENT_SOURCE_DIR}/../Library/interface)
 add_executable (
     Tests
     src/main.cpp
-    src/TestEncodeHello
-    src/TestEncodeVectorInt
-    src/TestEncodeStreamed)
+    src/TestEncodeHello.cpp
+    src/TestEncodeVectorInt.cpp
+    src/TestEncodeStreamed.cpp
+    src/TestDecodeOldStyleHello.cpp)
 
 target_link_libraries (
     Tests
@@ -35,3 +36,5 @@ endif ()
 add_test (EncodeHello     Tests EncodeHello)
 add_test (EncodeVectorInt Tests EncodeVectorInt)
 add_test (EncodeStreamed  Tests EncodeStreamed)
+
+add_test (DecodeOldStyleHello  Tests DecodeOldStyleHello)

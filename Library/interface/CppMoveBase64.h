@@ -9,6 +9,7 @@
 
 #include "CppMoveBase64/B64Text.h"
 #include "CppMoveBase64/BinData.h"
+#include "CppMoveBase64/DecIntermState.h"
 #include <stdexcept>
 
 namespace cmbase64
@@ -81,7 +82,7 @@ struct DecodeResult
 {
     enum class Outcome
     {
-        OkDone, OkPartial, DestSpanIsTooSmall
+        OkDone, OkPartial, DestSpanIsTooSmall, InvalidInput
     };
 
     std::size_t size;
@@ -91,11 +92,10 @@ struct DecodeResult
 CMBASE64_API DecodeResult decodeFromB64TxtToBin (
                     ConstSpan<char> textSrc,
                     Span<char> binDest,
-                    void * = nullptr, //--
+                    DecIntermState * intermState = nullptr,
                     bool toBeContinued = false)
                             CMBASE64_NOEXCEPT;
 
-//-- additional parameter for intermediate decoding bytes
 //-- template overloads...
 
 } // namespace cmbase64
