@@ -20,9 +20,10 @@ Base64 encoder/decoder for C++ 11 and above (move semantics, yet highly compatib
    * ...and then use it in a program compiled in MSVC 2012...
    * ...or vice-versa!
 
-3. This compatibility **scales** as your project grows
-   * Let's say you use this library and some other libraries in your program...
-   * Then, objects provided by CppMoveBase64 can travel around safely from one library/program to another, even though each one has been generated with a different version of the compiler
+3. This compatibility **scales** as the number of libraries grows. It is **transitive**
+   * Let's say you create a compression library FooZip that uses CppMoveBase64
+   * FooZip can simply expose CppMoveBase64's objects in its own interface
+   * Objects provided by CppMoveBase64 can be passed around safely from one library/program to another, even though each one has been generated with a different version of the compiler
 
 ## Basic encoding usage
 
