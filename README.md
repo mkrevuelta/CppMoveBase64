@@ -18,7 +18,7 @@ Base64 encoder/decoder for C++ 11 and above (move semantics, yet highly compatib
 2. It is **highly compatible** across compiler versions
    * You can compile the library with, let's say, MSVC 2012...
    * ...and then use it in a program compiled in MSVC 2019...
-   * ...**or vice-versa!** Yes: I can develop my library with the latest, cutting edge compiler version, even though my client keeps using an old one
+   * ...**or vice-versa!** Yes: I can develop my library with the latest, cutting edge compiler version, even though my client keeps using an old compiler
 
 3. This compatibility **scales** as the number of libraries grows. It is **transitive**
    * Let's say you create a compression library FooZip that uses CppMoveBase64
