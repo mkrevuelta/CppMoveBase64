@@ -73,8 +73,8 @@ Text:   Hello world!!
 
 The resulting object `binaryData` contains `char` elements. You can access them througth the `span()` function. For example, you could construct a `std::string` copying the data:
 ```
-std::string copy (binaryData.span().data(),
-                  binaryData.span().size());
+std::string binaryString (binaryData.span().data(),
+                          binaryData.span().size());
 ```
 
 If you need to decode to other fundamental types (`int`, `double`...), then you can use `cmbase64::decodeFromB64TxtToBin()` instead.
