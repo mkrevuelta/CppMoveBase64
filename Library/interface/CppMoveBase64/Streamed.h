@@ -33,9 +33,9 @@ inline void encodeFromBinToB64Txt (
     do
     {
         is.read (bin.data(), bin.size());
-        std::size_t binReadSize = is.gcount ();
+        auto binReadSize = is.gcount ();
 
-        if (binReadSize == 0 || is.bad())
+        if (binReadSize <= 0 || is.bad())
             return;
 
         encodeFromBinToB64Txt (
@@ -63,10 +63,13 @@ inline void decodeFromB64TxtToBin (
     do
     {
         is.read (text.data(), text.size());
-        std::size_t textReadSize = is.gcount ();
+        auto textReadSize = is.gcount ();
 
-        if ((textReadSize == 0 && intermState.empty()) || is.bad())
+        if ((textReadSize <= 0 && intermState.empty()) || is.bad())
             return;
+
+        if (textReadSize < 0)
+            textReadSize = 0;
 
         auto result = decodeFromB64TxtToBin (
                      ConstSpan<char> (text.data(),
