@@ -18,6 +18,7 @@ add_executable (
     src/TestEncodeHello.cpp
     src/TestEncodeVectorInt.cpp
     src/TestEncodeStreamed.cpp
+    src/TestDecodeHello.cpp
     src/TestDecodeStreamed.cpp
     src/TestDecodeOldStyleHello.cpp)
 
@@ -38,6 +39,7 @@ add_test (EncodeHello     Tests EncodeHello)
 add_test (EncodeVectorInt Tests EncodeVectorInt)
 add_test (EncodeStreamed  Tests EncodeStreamed)
 
+add_test (DecodeHello     Tests DecodeHello)
 add_test (DecodeStreamed  Tests DecodeStreamed)
 
 add_test (DecodeOldStyleHello  Tests DecodeOldStyleHello)

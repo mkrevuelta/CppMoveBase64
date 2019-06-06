@@ -13,14 +13,25 @@
 
 #include <CppMoveBase64.h>
 
+static void testEncodeHello (const std::string & input,
+                             const std::string & expectedOutput);
+
 void testEncodeHello ()
 {
-    std::string hello ("Hello world!");
-    std::cout << "Text:   " << hello << std::endl;
-    auto helloB64 = cmbase64::encodeFromBin (
-                                      cmbase64::ConstSpan<char>(hello));
-    std::cout << "Base64: " << helloB64.c_str() << std::endl;
+    testEncodeHello ("Hello world!", "SGVsbG8gd29ybGQh");
+    testEncodeHello ("Hello world!!", "SGVsbG8gd29ybGQhIQ==");
+}
 
-    if (std::string(helloB64.c_str()) != "SGVsbG8gd29ybGQh")
+static void testEncodeHello (const std::string & input,
+                             const std::string & expectedOutput)
+{
+    std::cout << "Text:   " << input << std::endl;
+
+    auto output = cmbase64::encodeFromBin (
+                            cmbase64::ConstSpan<char>(input));
+
+    std::cout << "Base64: " << output.c_str() << std::endl;
+
+    if (output.c_str() != expectedOutput)
         throw std::runtime_error ("The encoded string is wrong");
 }
