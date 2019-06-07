@@ -84,7 +84,7 @@ If you need to decode to other fundamental types (`int`, `double`...), then you 
 
 ### Rationale and design
 
-* Motivation (docs in progress...)
+* [Motivation](Doc/Motivation.md)
 * [The ABI](Doc/Abi.md)
 * `UniquePtr`, `Span` and `ConstSpan` (docs in progress...)
 * API macros (docs in progress...)
