@@ -8,7 +8,7 @@ There is a less evolved proof of concept (no practical use, no exception handlin
 
 + https://github.com/mkrevuelta/CppLibraryInterfacePoC
 
-It is a great C++ Base64 conversion library, but its functionality is a mere excuse. The main reason why I wrote it was to show, in a practical example, how to apply my ideas to make a C++ library with these compatibility characteristics (see [Why is this library special](../README.md#why-is-this-library-special)).
+CppMoveBase64 is a great C++ Base64 conversion library, but its functionality is a mere excuse. The main reason why I wrote it was to show, in a practical example, how to apply my ideas to make a C++ library with these compatibility characteristics (see [Why is this library special](../README.md#why-is-this-library-special)).
 
 C++ and the Standard Library have evolved a lot recently. The ecosystem is growing faster and faster. Though, some of the main principles of C++ (best performance, general purpose, wildly varied platforms) prevent it from having a frozen, universally compatible ABI. Other languages sacrifice performance (and more) in exchange of a great degree of compatibility.
 
@@ -30,3 +30,5 @@ Option 1 ties the potential users to that specific compiler version. Option 2 br
 Sometimes you can't choose the toolchain. Maybe you must use an old machine because you need a proprietary library which is installed and licensed only there. Maybe you don't have administrator permissions... That's life.
 
 At the end of the day, this problem is stopping people from using modern C++. They are stuck with MSVC 2012 or GCC 4.8.5 because of some library provider or consumer (usually from the next department in the same corporation).
+
+I am proposing to use some C++ in the library interfaces. This way we can make them efficient, easy to use and highly compatible.
