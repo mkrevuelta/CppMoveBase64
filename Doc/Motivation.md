@@ -18,7 +18,7 @@ In open software the solution is relatively easy: "let the source be with you" a
 
 Package managers like [Conan](https://conan.io) help by maintaining collections of binaries compiled with every version of every compiler.
 
-One very acclaimed solution for proprietary software is the [Hourglass Pattern](https://es.slideshare.net/StefanusDuToit/cpp-con-2014-hourglass-interfaces-for-c-apis). But the Hourglass Pattern requires a tremendous effort for the library developer and **it just doesn't scale:** Let's say you have a library with an Hourglass interface, and you make another library that uses it. This new library can't expose in its own interface the classes it gets from the first library. It would need to pass everything through yet another Hourglass interface!
+One very acclaimed solution for proprietary software is the [Hourglass Pattern](https://es.slideshare.net/StefanusDuToit/cpp-con-2014-hourglass-interfaces-for-c-apis). But the Hourglass Pattern requires a huge effort from the library developer and **it just doesn't scale:** Let's say you have a library with an Hourglass interface, and you make another library that uses it. This new library can't expose, in its own interface, the classes it gets from the first library. It would need to pass everything through yet another Hourglass interface!
 
 What I suffer "In Real Life" is that people are choosing to:
 1. Write full C++ interfaces and distribute binaries compiled with one specific compiler version
@@ -29,6 +29,6 @@ Option 1 ties the potential users to that specific compiler version. Option 2 br
 
 Sometimes you can't choose the toolchain. Maybe you must use an old machine because you need a proprietary library which is installed and licensed only there. Maybe you don't have administrator permissions... That's life.
 
-At the end of the day, this problem is stopping people from using modern C++. They are stuck with MSVC 2012 or GCC 4.8.5 because of some library provider or consumer (usually from the next department in the same corporation).
+At the end of the day, **this problem is stopping people from using modern C++.** They are stuck with MSVC 2012 or GCC 4.8.5 because of some library provider or consumer (usually from the next department in the same corporation).
 
 I am proposing to use some C++ in the library interfaces. This way we can make them efficient, easy to use and highly compatible.
