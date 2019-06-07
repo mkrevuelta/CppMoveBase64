@@ -26,6 +26,6 @@ The other class exposed in the ABI is `DecIntermState` (_decoding intermediate s
 
 There is no chance for different alignments or padding gaps between members. This ABI will be perfectly compatible between different compiler versions of a single vendor.
 
-Not that I do not aim for compatibility between compilers of different vendors. That's another kettle of fish!
+Note that I do **not** aim for compatibility between compilers of **different vendors** with different mangling... That's entirely another kettle of fish!
 
 I also assume that you will need to compile separate binaries for 32-bit and 64-bit.
