@@ -12,7 +12,7 @@ It is a great C++ Base64 conversion library, but its functionality is a mere exc
 
 C++ and the Standard Library have evolved a lot recently. The ecosystem is growing faster and faster. Though, some of the main principles of C++ (best performance, general purpose, wildly varied platforms) prevent it from having a frozen, universally compatible ABI. Other languages sacrifice performance (and more) in exchange of a great degree of compatibility.
 
-In C++ you can have compatibility problems between two pieces of a program just because they have been compiled with diferent compiler versions **from the same vendor!** Of course, compiler vendors make tremendous efforts not to break the compatibility. Though, from time to time, shit happens.
+In C++ you can have compatibility problems between two pieces of a program just because they have been compiled with different compiler versions **from the same vendor!** Of course, compiler vendors make tremendous efforts not to break the compatibility. Though, from time to time, shit happens.
 
 In open software the solution is relatively easy: "let the source be with you" and always compile everything with one compiler. 
 
