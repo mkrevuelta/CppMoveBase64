@@ -82,4 +82,17 @@ If you need to decode to other fundamental types (`int`, `double`...), then you 
 
 ## More details
 
+### Rationale and design
+
+* Motivation (docs in progress...)
 * [The ABI](Doc/Abi.md)
+* `UniquePtr`, `Span` and `ConstSpan` (docs in progress...)
+* API macros (docs in progress...)
+* PIMPL macros (docs in progress...)
+* The PIMPL classes: `B64Text` and `BinData` (docs in progress...)
+
+### Advanced usage
+
+* Recycling buffers (docs in progress...)
+* Low level conversion with client-provided buffers (docs in progress...)
+* Stream conversion (docs in progress...)
