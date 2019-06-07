@@ -79,3 +79,7 @@ std::string binaryString (binaryData.span().data(),
 ```
 
 If you need to decode to other fundamental types (`int`, `double`...), then you can use `cmbase64::decodeFromB64TxtToBin()` instead.
+
+## More details
+
+* [The ABI](Doc/Abi.md)
