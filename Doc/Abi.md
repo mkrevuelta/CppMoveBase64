@@ -7,6 +7,9 @@ It exposes C++ classes and functions, but:
 1. No exceptions cross the frontier
 2. No `std` classes are exposed
 3. The only classes exposed have a very stable binary layout
+   * One pointer
+   * Two pointers
+   * An array of four chars
 
 Exceptions are handled like in a conventional hourglass pattern. In the library side they are converted to some kind of error state variables, and then some header-only code converts those errors back to exceptions in the client side. It's ugly, but I don't know any better option. Luckily, the ugliness stays inside the library.
 
