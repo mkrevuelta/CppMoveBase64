@@ -87,7 +87,7 @@ If you need to decode to other fundamental types (`int`, `double`...), then you 
 * [Motivation](Doc/Motivation.md)
 * [The ABI](Doc/Abi.md)
 * [`UniquePtr`, `Span` and `ConstSpan`](Doc/UniquePtrAndSpan.md)
-* API macros (docs in progress...)
+* [API macros](Doc/ApiMacros.md)
 * PIMPL macros (docs in progress...)
 * The PIMPL classes: `B64Text` and `BinData` (docs in progress...)
 
