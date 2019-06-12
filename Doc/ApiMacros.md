@@ -1,8 +1,8 @@
 # API Macros
 
-A few macros are conditionally defined in `<CppMoveBase64/ApiMacros.h>`. Their specific definition depends on:
+A few macros are conditionally defined in `Library/interface/CppMoveBase64/ApiMacros.h`. Their specific definition depends on:
 + the compiler brand
-+ the macro `COMPILING_CMBASE64`, which is supposed to be defined only while compiling the library, and **not** while compiling client code.
++ the macro `COMPILING_CMBASE64`, which is supposed to be defined only while compiling the library, and **not** while compiling client code
 
 The macros are:
 * `CMBASE64_API`, which marks the classes and free fuctions that are exposed in the library interface
