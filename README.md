@@ -79,3 +79,20 @@ std::string binaryString (binaryData.span().data(),
 ```
 
 If you need to decode to other fundamental types (`int`, `double`...), then you can use `cmbase64::decodeFromB64TxtToBin()` instead.
+
+## More details
+
+### Rationale and design
+
+* [Motivation](Doc/Motivation.md)
+* [The ABI](Doc/Abi.md)
+* [`UniquePtr`, `Span` and `ConstSpan`](Doc/UniquePtrAndSpan.md)
+* [API macros](Doc/ApiMacros.md)
+* PIMPL macros (docs in progress...)
+* The PIMPL classes: `B64Text` and `BinData` (docs in progress...)
+
+### Advanced usage
+
+* Recycling buffers (docs in progress...)
+* Low level conversion with client-provided buffers (docs in progress...)
+* Stream conversion (docs in progress...)
