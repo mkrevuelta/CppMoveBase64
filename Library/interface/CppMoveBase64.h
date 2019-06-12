@@ -92,7 +92,7 @@ inline BinData decodeFromB64Txt (ConstSpan<char> b64TxtSrc)
 
 struct DecodeResult
 {
-    enum class Outcome
+    enum class Outcome : intptr_t
     {
         OkDone, OkPartial, DestSpanIsTooSmall, InvalidInput
     };
