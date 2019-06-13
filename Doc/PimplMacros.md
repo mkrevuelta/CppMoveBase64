@@ -25,7 +25,8 @@ struct MyPimpl::Impl
 {
     // Payload data...
 };
- CMBASE64_IMPLEMENT_MOVE_ONLY_PIMPL (MyPimpl)
+
+CMBASE64_IMPLEMENT_MOVE_ONLY_PIMPL (MyPimpl)
 
 // Implementation of interface functions
 ```
