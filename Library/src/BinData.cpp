@@ -23,7 +23,7 @@ struct BinData::Impl
     std::string errMessage;
 };
 
-CMBASE64_IMPLEMENT_MOVE_ONLY_PIMPL (BinData)
+CMBASE64_IMPLEMENT_PIMPL (BinData)
 
 Span<char> BinData::span ()
 {

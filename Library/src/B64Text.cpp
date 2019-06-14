@@ -22,7 +22,7 @@ struct B64Text::Impl
     std::string errMessage;
 };
 
-CMBASE64_IMPLEMENT_MOVE_ONLY_PIMPL (B64Text)
+CMBASE64_IMPLEMENT_PIMPL (B64Text)
 
 Span<char> B64Text::span ()
 {

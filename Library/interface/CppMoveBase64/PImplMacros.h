@@ -16,7 +16,7 @@
 
 // ------------------------------------------------------------ //
 
-#define CMBASE64_DECLARE_MOVE_ONLY_PIMPL(CLASS)                  \
+#define CMBASE64_DECLARE_PIMPL(CLASS)                            \
                                                                  \
 private:                                                         \
                                                                  \
@@ -35,17 +35,6 @@ public:                                                          \
 
 // ------------------------------------------------------------ //
 
-#define CMBASE64_DECLARE_COPYABLE_PIMPL(CLASS)                   \
-                                                                 \
-    CMBASE64_DECLARE_MOVE_ONLY_PIMPL (CLASS)                     \
-                                                                 \
-public:                                                          \
-                                                                 \
-    CLASS (const CLASS &);                                       \
-    CLASS & operator= (const CLASS &);
-
-// ------------------------------------------------------------ //
-
 #define CMBASE64_INLINE_SYMMETRIC_SWAP(CLASS)                    \
                                                                  \
 inline void swap (CLASS & a, CLASS & b) CMBASE64_NOEXCEPT        \
@@ -55,7 +44,7 @@ inline void swap (CLASS & a, CLASS & b) CMBASE64_NOEXCEPT        \
 
 // ------------------------------------------------------------ //
 
-#define CMBASE64_IMPLEMENT_INNER_MOVE_ONLY_PIMPL(FULLNAME,CLASS) \
+#define CMBASE64_IMPLEMENT_INNER_PIMPL(FULLNAME,CLASS)           \
                                                                  \
 FULLNAME::CLASS () CMBASE64_NOEXCEPT                             \
     :                                                            \
@@ -96,35 +85,8 @@ void FULLNAME::swap (FULLNAME & other) CMBASE64_NOEXCEPT         \
 
 // ------------------------------------------------------------ //
 
-#define CMBASE64_IMPLEMENT_INNER_COPYABLE_PIMPL(FULLNAME,CLASS)  \
-                                                                 \
-    CMBASE64_IMPLEMENT_INNER_MOVE_ONLY_PIMPL(FULLNAME,CLASS)     \
-                                                                 \
-FULLNAME::CLASS (const FULLNAME & other)                         \
-    :                                                            \
-    pImpl(other.pImpl ? *other.pImpl.get()                       \
-                      : Impl()),                                 \
-    status(other.status)                                         \
-{                                                                \
-}                                                                \
-                                                                 \
-FULLNAME & FULLNAME::operator= (                                 \
-                const FULLNAME & other)                          \
-{                                                                \
-    FULLNAME tmp(other);                                         \
-    swap (tmp);                                                  \
-    return *this;                                                \
-}
-
-// ------------------------------------------------------------ //
-
-#define CMBASE64_IMPLEMENT_MOVE_ONLY_PIMPL(CLASS)                \
-        CMBASE64_IMPLEMENT_INNER_MOVE_ONLY_PIMPL (CLASS, CLASS)
-
-// ------------------------------------------------------------ //
-
-#define CMBASE64_IMPLEMENT_COPYABLE_PIMPL(CLASS)                 \
-        CMBASE64_IMPLEMENT_INNER_COPYABLE_PIMPL (CLASS, CLASS)
+#define CMBASE64_IMPLEMENT_PIMPL(CLASS)                          \
+        CMBASE64_IMPLEMENT_INNER_PIMPL (CLASS, CLASS)
 
 // ------------------------------------------------------------ //
 

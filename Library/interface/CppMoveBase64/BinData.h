@@ -19,7 +19,7 @@ namespace cmbase64
 
 class CMBASE64_API BinData
 {
-    CMBASE64_DECLARE_MOVE_ONLY_PIMPL (BinData)
+    CMBASE64_DECLARE_PIMPL (BinData)
 
 public:
 

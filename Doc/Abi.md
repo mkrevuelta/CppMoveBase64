@@ -22,7 +22,7 @@ One of the main `gsl` implementations out there stores `gsl::span` as a couple o
 
 As a result, I had to implement my own `UniquePtr` and `Span` in this library.
 
-`UniquePtr` contains just one pointer. The exposed classes `B64Txt` and `BinData` just contain a `UniquePtr`. They don't have any virtual function. Therefore, their binary layout is... just one pointer!
+`UniquePtr` contains just one pointer. The exposed classes `B64Txt` and `BinData` just contain a `UniquePtr` and an enum (with an undelying `intptr_t`). They don't have any virtual function. Therefore, their binary layout is... just two members of pointer size!
 
 `Span`, which is passed to or returned by several functions, contains just two pointers.
 
