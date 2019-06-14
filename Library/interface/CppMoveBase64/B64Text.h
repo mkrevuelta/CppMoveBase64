@@ -19,7 +19,7 @@ namespace cmbase64
 
 class CMBASE64_API B64Text
 {
-    CMBASE64_DECLARE_MOVE_ONLY_PIMPL (B64Text)
+    CMBASE64_DECLARE_PIMPL (B64Text)
 
 public:
 
