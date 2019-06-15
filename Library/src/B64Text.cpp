@@ -102,8 +102,8 @@ ErrorStatus B64Text::reserveAtLeast (std::size_t capacity)
             if ( ! pImpl)
                 pImpl.allocate ();
 
-            pImpl->buff.totalSize = capacity;
             pImpl->buff.data.reset (new char [capacity]);
+            pImpl->buff.totalSize = capacity;
         });
     }
 
