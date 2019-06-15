@@ -36,7 +36,7 @@ ErrorStatus runWithErrorHarness (
     try
     {
         task ();
-        
+
         return ErrorStatus::Ok;
     }
     catch (const std::bad_alloc &)
@@ -49,7 +49,7 @@ ErrorStatus runWithErrorHarness (
         {
             if (pImpl)
                 pImpl->errMessage = ex.what ();
-                
+
             return ErrorStatus::Exception;
         }
         catch (...)
