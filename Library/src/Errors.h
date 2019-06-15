@@ -29,34 +29,32 @@ namespace internal
 {
 
 template <typename I>
-void runWithErrorHarness (
-                    ErrorStatus & status,
+ErrorStatus runWithErrorHarness (
                     UniquePtr<I> & pImpl,
                     std::function<void(void)> task)
 {
     try
     {
-        status = ErrorStatus::Ok;
-
         task ();
+        
+        return ErrorStatus::Ok;
     }
     catch (const std::bad_alloc &)
     {
-        status = ErrorStatus::BadAlloc;
+        return ErrorStatus::BadAlloc;
     }
     catch (const std::exception & ex)
     {
-        status = ErrorStatus::Exception;
-
         try
         {
             if (pImpl)
                 pImpl->errMessage = ex.what ();
-            return;
+                
+            return ErrorStatus::Exception;
         }
         catch (...)
         {
-            status = ErrorStatus::DoubleException;
+            return ErrorStatus::DoubleException;
         }
     }
 }

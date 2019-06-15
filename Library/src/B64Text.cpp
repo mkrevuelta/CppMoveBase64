@@ -97,7 +97,7 @@ ErrorStatus B64Text::reserveAtLeast (std::size_t capacity)
 
     if ( ! pImpl || pImpl->buff.totalSize < capacity)
     {
-        internal::runWithErrorHarness (status, pImpl, [&]()
+        status = internal::runWithErrorHarness (pImpl, [&]()
         {
             if ( ! pImpl)
                 pImpl.allocate ();
