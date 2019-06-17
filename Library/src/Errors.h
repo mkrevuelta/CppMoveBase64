@@ -59,6 +59,35 @@ ErrorStatus runWithErrorHarness (
     }
 }
 
+inline
+const char * errorMessage (
+                    ErrorStatus status,
+                    const std::string * errMessage)
+{
+    switch (status)
+    {
+        case ErrorStatus::Ok:
+            return "All OK. No error... Duh!";
+
+        case ErrorStatus::OkPartial:
+            return "Ok. Intermediate decoding state";
+
+        case ErrorStatus::BadAlloc:
+            return "Allocation error. Not enough memory";
+
+        case ErrorStatus::DoubleException:
+            return "Double exception. Error while storing error info";
+
+        case ErrorStatus::Exception:
+            return errMessage && ! errMessage->empty() ?
+                   errMessage->c_str ()                 :
+                   "Unexpected status with no error message";
+
+        default:
+            return "Unexpected error status";
+    }
+}
+
 } // namespace internal
 
 } // namespace cmbase64
