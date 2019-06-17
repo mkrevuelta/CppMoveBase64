@@ -53,28 +53,12 @@ const char * B64Text::c_str () const
 
 const char * B64Text::errorMessage () const
 {
-    switch (status)
-    {
-        case ErrorStatus::Ok:
-            return "All OK. No error... Duh!";
+    if (status == ErrorStatus::OkPartial)
+        return "Oops... Invalid status for B64Text (OkPartial)";
 
-        case ErrorStatus::OkPartial:
-            return "Oops... Invalid status for B64Text (OkPartial)";
-
-        case ErrorStatus::BadAlloc:
-            return "Allocation error. Not enough memory";
-
-        case ErrorStatus::DoubleException:
-            return "Double exception. Error while storing error info";
-
-        case ErrorStatus::Exception:
-            return pImpl && ! pImpl->errMessage.empty()      ?
-                   pImpl->errMessage.c_str ()                :
-                   "Unexpected status with no error message";
-
-        default:
-            return "Unexpected error status";
-    }
+    return internal::errorMessage (
+                        status,
+                        pImpl ? &pImpl->errMessage : nullptr);
 }
 
 ErrorStatus B64Text::encodeFromBin (ConstSpan<char> binSrc)
@@ -97,13 +81,13 @@ ErrorStatus B64Text::reserveAtLeast (std::size_t capacity)
 
     if ( ! pImpl || pImpl->buff.totalSize < capacity)
     {
-        internal::runWithErrorHarness (status, pImpl, [&]()
+        status = internal::runWithErrorHarness (pImpl, [&]()
         {
             if ( ! pImpl)
                 pImpl.allocate ();
 
-            pImpl->buff.totalSize = capacity;
             pImpl->buff.data.reset (new char [capacity]);
+            pImpl->buff.totalSize = capacity;
         });
     }
 

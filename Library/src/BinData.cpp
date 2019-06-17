@@ -49,28 +49,9 @@ ConstSpan<char> BinData::span () const
 
 const char * BinData::errorMessage () const
 {
-    switch (status)
-    {
-        case ErrorStatus::Ok:
-            return "All OK. No error... Duh!";
-
-        case ErrorStatus::OkPartial:
-            return "Ok. Intermediate decoding state";
-
-        case ErrorStatus::BadAlloc:
-            return "Allocation error. Not enough memory";
-
-        case ErrorStatus::DoubleException:
-            return "Double exception. Error while storing error info";
-
-        case ErrorStatus::Exception:
-            return pImpl && ! pImpl->errMessage.empty()      ?
-                   pImpl->errMessage.c_str ()                :
-                   "Unexpected status with no error message";
-
-        default:
-            return "Unexpected error status";
-    }
+    return internal::errorMessage (
+                        status,
+                        pImpl ? &pImpl->errMessage : nullptr);
 }
 
 ErrorStatus BinData::decodeFromB64Txt (ConstSpan<char> b64TxtSrc)
@@ -103,7 +84,7 @@ ErrorStatus BinData::decodeFromB64Txt (ConstSpan<char> b64TxtSrc)
         break;
 
     case DecodeResult::Outcome::DestSpanIsTooSmall:
-        internal::runWithErrorHarness (status, pImpl, [&]()
+        status = internal::runWithErrorHarness (pImpl, [&]()
         {
             throw std::runtime_error (
                 "Unexpected end of buffer while decoding Base64");
@@ -111,7 +92,7 @@ ErrorStatus BinData::decodeFromB64Txt (ConstSpan<char> b64TxtSrc)
         break;
 
     case DecodeResult::Outcome::InvalidInput:
-        internal::runWithErrorHarness (status, pImpl, [&]()
+        status = internal::runWithErrorHarness (pImpl, [&]()
         {
             throw std::runtime_error (
                 "Invalid input character while decoding Base64");
@@ -129,13 +110,13 @@ ErrorStatus BinData::reserveAtLeast (std::size_t capacity)
 
     if ( ! pImpl || pImpl->buff.totalSize < capacity)
     {
-        internal::runWithErrorHarness (status, pImpl, [&]()
+        status = internal::runWithErrorHarness (pImpl, [&]()
         {
             if ( ! pImpl)
                 pImpl.allocate ();
 
-            pImpl->buff.totalSize = capacity;
             pImpl->buff.data.reset (new char [capacity]);
+            pImpl->buff.totalSize = capacity;
             pImpl->size = 0;
         });
     }
