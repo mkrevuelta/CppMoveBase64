@@ -89,10 +89,10 @@ If you need to decode to other fundamental types (`int`, `double`...), then you 
 * [`UniquePtr`, `Span` and `ConstSpan`](Doc/UniquePtrAndSpan.md)
 * [API macros](Doc/ApiMacros.md)
 * [PIMPL macros](Doc/PimplMacros.md)
-* [The PIMPL classes](Doc/PimplClasses.md) (still in progress)
+* [The PIMPL classes](Doc/PimplClasses.md)
 
 ### Advanced usage
 
-* Recycling buffers (docs in progress...)
-* Low level conversion with client-provided buffers (docs in progress...)
-* Stream conversion (docs in progress...)
+* Recycling buffers *(docs in progress...)*
+* Low level conversion with client-provided buffers *(docs in progress...)*
+* Stream conversion *(docs in progress...)*
