@@ -13,7 +13,7 @@
 namespace cmbase64
 {
 
-void DecIntermState::setPending (ConstSpan<unsigned char> pending)
+void DecIntermState::setPending (ConstSpan<unsigned char> pending) throw()
 {
     std::size_t size = pending.size ();
 
@@ -28,7 +28,7 @@ void DecIntermState::setPending (ConstSpan<unsigned char> pending)
         countAndData[i] = *(src++);
 }
 
-ConstSpan<unsigned char> DecIntermState::getPending () const
+ConstSpan<unsigned char> DecIntermState::getPending () const throw()
 {
     return ConstSpan<unsigned char>(
                 countAndData + 1,

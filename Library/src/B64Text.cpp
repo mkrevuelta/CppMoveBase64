@@ -24,7 +24,7 @@ struct B64Text::Impl
 
 CMBASE64_IMPLEMENT_PIMPL (B64Text)
 
-Span<char> B64Text::span ()
+Span<char> B64Text::span () throw()
 {
     if ( ! pImpl)
         return Span<char>();
@@ -35,7 +35,7 @@ Span<char> B64Text::span ()
                       begin + pImpl->buff.totalSize);
 }
 
-ConstSpan<char> B64Text::span () const
+ConstSpan<char> B64Text::span () const throw()
 {
     if ( ! pImpl)
         return ConstSpan<char>();
@@ -46,12 +46,12 @@ ConstSpan<char> B64Text::span () const
                            begin + pImpl->buff.totalSize);
 }
 
-const char * B64Text::c_str () const
+const char * B64Text::c_str () const throw()
 {
     return pImpl && pImpl->buff.data ? pImpl->buff.data.get() : "";
 }
 
-const char * B64Text::errorMessage () const
+const char * B64Text::errorMessage () const throw()
 {
     if (status == ErrorStatus::OkPartial)
         return "Oops... Invalid status for B64Text (OkPartial)";
@@ -61,8 +61,7 @@ const char * B64Text::errorMessage () const
                         pImpl ? &pImpl->errMessage : nullptr);
 }
 
-ErrorStatus B64Text::encodeFromBin (ConstSpan<char> binSrc)
-                                                 CMBASE64_NOEXCEPT
+ErrorStatus B64Text::encodeFromBin (ConstSpan<char> binSrc) throw()
 {
     std::size_t requiredSize = encodedSize (binSrc.size ());
 
@@ -74,8 +73,7 @@ ErrorStatus B64Text::encodeFromBin (ConstSpan<char> binSrc)
     return status;
 }
 
-ErrorStatus B64Text::reserveAtLeast (std::size_t capacity)
-                                                      CMBASE64_NOEXCEPT
+ErrorStatus B64Text::reserveAtLeast (std::size_t capacity) throw()
 {
     status = ErrorStatus::Ok;
 

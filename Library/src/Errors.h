@@ -32,6 +32,7 @@ template <typename I>
 ErrorStatus runWithErrorHarness (
                     UniquePtr<I> & pImpl,
                     std::function<void(void)> task)
+                            throw()
 {
     try
     {
@@ -63,6 +64,7 @@ inline
 const char * errorMessage (
                     ErrorStatus status,
                     const std::string * errMessage)
+                            throw()
 {
     switch (status)
     {

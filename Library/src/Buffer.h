@@ -28,7 +28,7 @@ struct Buffer
 {
     struct Deleter
     {
-        void operator() (char * p)
+        void operator() (char * p) throw()
         {
             delete [] p;
         }

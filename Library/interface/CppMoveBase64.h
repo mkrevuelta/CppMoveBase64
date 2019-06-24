@@ -15,14 +15,12 @@
 namespace cmbase64
 {
 
-inline std::size_t encodedSize (std::size_t binSrcSizeInBytes)
-                                                CMBASE64_NOEXCEPT
+inline std::size_t encodedSize (std::size_t binSrcSizeInBytes) throw()
 {
     return (binSrcSizeInBytes+2U)/3U*4U + 1U;
 }
 
-inline std::size_t decodedMaxSize (std::size_t b64TextSrcSizeInChars)
-                                                CMBASE64_NOEXCEPT
+inline std::size_t decodedMaxSize (std::size_t b64TextSrcSizeInChars) throw()
 {
     return (b64TextSrcSizeInChars+3U)/4U*3U;
 }
@@ -57,13 +55,13 @@ B64Text encodeFromBin (ConstSpan<T> binSrc)
 CMBASE64_API void encodeFromBinToB64Txt (
                     ConstSpan<char> binSrc,
                     Span<char> textDest)
-                            CMBASE64_NOEXCEPT;
+                            throw();
 
 template <typename T>
 void encodeFromBinToB64Txt (
         ConstSpan<T> binSrc,
         Span<char> textDest)
-                CMBASE64_NOEXCEPT
+                throw()
 {
     typedef typename std::enable_if
                 <std::is_fundamental<T>::value,T>::type
@@ -106,14 +104,14 @@ CMBASE64_API DecodeResult decodeFromB64TxtToBin (
                     Span<char> binDest,
                     DecIntermState * intermState = nullptr,
                     bool toBeContinued = false)
-                            CMBASE64_NOEXCEPT;
+                            throw();
 
 inline DecodeResult decodeFromB64TxtToBin (
                     ConstSpan<char> textSrc,
                     Span<unsigned char> binDest,
                     DecIntermState * intermState = nullptr,
                     bool toBeContinued = false)
-                            CMBASE64_NOEXCEPT
+                            throw()
 {
     return decodeFromB64TxtToBin (
             textSrc,
@@ -128,7 +126,7 @@ template <typename T>
 DecodeResult decodeFromB64TxtToBin (
                     ConstSpan<char> textSrc,
                     Span<T> binDest)
-                            CMBASE64_NOEXCEPT
+                            throw()
 {
     typedef typename std::enable_if
                 <std::is_fundamental<T>::value,T>::type

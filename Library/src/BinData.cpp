@@ -25,7 +25,7 @@ struct BinData::Impl
 
 CMBASE64_IMPLEMENT_PIMPL (BinData)
 
-Span<char> BinData::span ()
+Span<char> BinData::span () throw()
 {
     if ( ! pImpl)
         return Span<char>();
@@ -36,7 +36,7 @@ Span<char> BinData::span ()
                       begin + pImpl->size);
 }
 
-ConstSpan<char> BinData::span () const
+ConstSpan<char> BinData::span () const throw()
 {
     if ( ! pImpl)
         return ConstSpan<char>();
@@ -47,15 +47,14 @@ ConstSpan<char> BinData::span () const
                            begin + pImpl->size);
 }
 
-const char * BinData::errorMessage () const
+const char * BinData::errorMessage () const throw()
 {
     return internal::errorMessage (
                         status,
                         pImpl ? &pImpl->errMessage : nullptr);
 }
 
-ErrorStatus BinData::decodeFromB64Txt (ConstSpan<char> b64TxtSrc)
-                                                           CMBASE64_NOEXCEPT
+ErrorStatus BinData::decodeFromB64Txt (ConstSpan<char> b64TxtSrc) throw()
 {
     std::size_t requiredSize = decodedMaxSize (b64TxtSrc.size ());
 
@@ -103,8 +102,7 @@ ErrorStatus BinData::decodeFromB64Txt (ConstSpan<char> b64TxtSrc)
     return status;
 }
 
-ErrorStatus BinData::reserveAtLeast (std::size_t capacity)
-                                                      CMBASE64_NOEXCEPT
+ErrorStatus BinData::reserveAtLeast (std::size_t capacity) throw()
 {
     status = ErrorStatus::Ok;
 

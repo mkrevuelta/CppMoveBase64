@@ -31,7 +31,5 @@
   #pragma error "Missing specification of import/export method"
 #endif
 
-#define CMBASE64_NOEXCEPT throw()
-
 #endif // __CPPMOVEBASE64_API_MACROS_H__
 

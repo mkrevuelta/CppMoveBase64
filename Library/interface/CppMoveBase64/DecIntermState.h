@@ -29,23 +29,23 @@ private:
 
     unsigned char countAndData[4];
 
-    void setPending (ConstSpan<unsigned char> bytes);
-    
-    ConstSpan<unsigned char> getPending () const;
+    void setPending (ConstSpan<unsigned char> bytes) throw();
 
-    void clear ()
+    ConstSpan<unsigned char> getPending () const throw();
+
+    void clear () throw()
     {
         countAndData[0] = 0;
     }
 
 public:
 
-    bool empty () const
+    bool empty () const throw()
     {
         return countAndData[0] == 0;
     }
 
-    DecIntermState ()
+    DecIntermState () throw()
     {
         clear ();
     }

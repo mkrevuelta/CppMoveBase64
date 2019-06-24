@@ -28,44 +28,44 @@ private:
 
 public:
 
-    UniquePtr () CMBASE64_NOEXCEPT : ptr(nullptr) {}
-    ~UniquePtr () CMBASE64_NOEXCEPT;
+    UniquePtr () throw() : ptr(nullptr) {}
+    ~UniquePtr () throw();
 
     void allocate ();
 
-    UniquePtr<T> & operator= (UniquePtr<T> && other) CMBASE64_NOEXCEPT
+    UniquePtr<T> & operator= (UniquePtr<T> && other) throw()
     {
         UniquePtr<T> tmp (std::move(other));
         swap (tmp);
         return *this;
     }
 
-    UniquePtr (UniquePtr<T> && other) CMBASE64_NOEXCEPT
+    UniquePtr (UniquePtr<T> && other) throw()
         : ptr(other.ptr)
     {
         other.ptr = nullptr;
     }
 
-    void swap (UniquePtr<T> & other) CMBASE64_NOEXCEPT
+    void swap (UniquePtr<T> & other) throw()
     {
         T * tmp = ptr;
         ptr = other.ptr;
         other.ptr = tmp;
     }
 
-    bool    empty () const { return ptr == nullptr; }
-    operator bool () const { return ptr != nullptr; }
+    bool    empty () const throw() { return ptr == nullptr; }
+    operator bool () const throw() { return ptr != nullptr; }
 
-    const T * get        () const { return  ptr; }
-          T * get        ()       { return  ptr; }
-    const T * operator-> () const { return  ptr; }
-          T * operator-> ()       { return  ptr; }
-    const T & operator*  () const { return *ptr; }
-          T & operator*  ()       { return *ptr; }
+    const T * get        () const throw() { return  ptr; }
+          T * get        ()       throw() { return  ptr; }
+    const T * operator-> () const throw() { return  ptr; }
+          T * operator-> ()       throw() { return  ptr; }
+    const T & operator*  () const throw() { return *ptr; }
+          T & operator*  ()       throw() { return *ptr; }
 };
 
 template <typename T>
-void swap (UniquePtr<T> & a, UniquePtr<T> & b) CMBASE64_NOEXCEPT
+void swap (UniquePtr<T> & a, UniquePtr<T> & b) throw()
 {
     a.swap (b);
 }
@@ -84,7 +84,7 @@ void UniquePtr<T>::allocate ()
 }
 
 template <typename T>
-UniquePtr<T>::~UniquePtr () CMBASE64_NOEXCEPT
+UniquePtr<T>::~UniquePtr () throw()
 {
     if (ptr)
         delete ptr;
