@@ -26,12 +26,12 @@ public:
          Span<char> span ()       throw();
     ConstSpan<char> span () const throw();
 
-    bool isFinishedOk () const { return status == ErrorStatus::Ok; }
+    bool isFinishedOk () const throw() { return status == ErrorStatus::Ok; }
 
-    bool isOk    () const { return status == ErrorStatus::Ok ||
-                                   status == ErrorStatus::OkPartial; }
-    bool isError () const { return ! isOk(); }
-    const char * errorMessage () const;
+    bool isOk    () const throw() { return status == ErrorStatus::Ok ||
+                                           status == ErrorStatus::OkPartial; }
+    bool isError () const throw() { return ! isOk(); }
+    const char * errorMessage () const throw();
 
     ErrorStatus reserveAtLeast (std::size_t capacity) throw();
 

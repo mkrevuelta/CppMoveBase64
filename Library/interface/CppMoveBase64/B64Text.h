@@ -26,11 +26,11 @@ public:
          Span<char> span ()       throw();
     ConstSpan<char> span () const throw();
 
-    const char * c_str () const;   // Returns "" if empty
+    const char * c_str () const throw();   // Returns "" if empty
 
-    bool isOk    () const { return status == ErrorStatus::Ok; }
-    bool isError () const { return ! isOk(); }
-    const char * errorMessage () const;
+    bool isOk    () const throw() { return status == ErrorStatus::Ok; }
+    bool isError () const throw() { return ! isOk(); }
+    const char * errorMessage () const throw();
 
     ErrorStatus reserveAtLeast (std::size_t capacity) throw();
 
