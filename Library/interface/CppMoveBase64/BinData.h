@@ -23,8 +23,8 @@ class CMBASE64_API BinData
 
 public:
 
-         Span<char> span ();
-    ConstSpan<char> span () const;
+         Span<char> span ()       throw();
+    ConstSpan<char> span () const throw();
 
     bool isFinishedOk () const { return status == ErrorStatus::Ok; }
 
@@ -33,9 +33,9 @@ public:
     bool isError () const { return ! isOk(); }
     const char * errorMessage () const;
 
-    ErrorStatus reserveAtLeast (std::size_t capacity) CMBASE64_NOEXCEPT;
+    ErrorStatus reserveAtLeast (std::size_t capacity) throw();
 
-    ErrorStatus decodeFromB64Txt (ConstSpan<char> b64Text) CMBASE64_NOEXCEPT;
+    ErrorStatus decodeFromB64Txt (ConstSpan<char> b64Text) throw();
 };
 
 CMBASE64_INLINE_SYMMETRIC_SWAP (BinData)

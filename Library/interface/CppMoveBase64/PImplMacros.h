@@ -27,17 +27,17 @@ private:                                                         \
                                                                  \
 public:                                                          \
                                                                  \
-    CLASS () CMBASE64_NOEXCEPT;                                  \
-    CLASS (CLASS &&) CMBASE64_NOEXCEPT;                          \
-    ~CLASS () CMBASE64_NOEXCEPT;                                 \
-    CLASS & operator= (CLASS &&) CMBASE64_NOEXCEPT;              \
-    void swap (CLASS &) CMBASE64_NOEXCEPT;
+    CLASS () throw();                                            \
+    CLASS (CLASS &&) throw();                                    \
+    ~CLASS () throw();                                           \
+    CLASS & operator= (CLASS &&) throw();                        \
+    void swap (CLASS &) throw();
 
 // ------------------------------------------------------------ //
 
 #define CMBASE64_INLINE_SYMMETRIC_SWAP(CLASS)                    \
                                                                  \
-inline void swap (CLASS & a, CLASS & b) CMBASE64_NOEXCEPT        \
+inline void swap (CLASS & a, CLASS & b) throw()                  \
 {                                                                \
     a.swap (b);                                                  \
 }
@@ -46,13 +46,13 @@ inline void swap (CLASS & a, CLASS & b) CMBASE64_NOEXCEPT        \
 
 #define CMBASE64_IMPLEMENT_INNER_PIMPL(FULLNAME,CLASS)           \
                                                                  \
-FULLNAME::CLASS () CMBASE64_NOEXCEPT                             \
+FULLNAME::CLASS () throw()                                       \
     :                                                            \
     status(ErrorStatus::Ok)                                      \
 {                                                                \
 }                                                                \
                                                                  \
-FULLNAME::CLASS (FULLNAME && other) CMBASE64_NOEXCEPT            \
+FULLNAME::CLASS (FULLNAME && other) throw()                      \
     :                                                            \
     pImpl(std::move(other.pImpl)),                               \
     status(other.status)                                         \
@@ -61,12 +61,12 @@ FULLNAME::CLASS (FULLNAME && other) CMBASE64_NOEXCEPT            \
 }                                                                \
                                                                  \
                                                                  \
-FULLNAME::~CLASS () CMBASE64_NOEXCEPT                            \
+FULLNAME::~CLASS () throw()                                      \
 {                                                                \
 }                                                                \
                                                                  \
 FULLNAME & FULLNAME::operator= (                                 \
-                FULLNAME && other) CMBASE64_NOEXCEPT             \
+                FULLNAME && other) throw()                       \
 {                                                                \
     pImpl = std::move (other.pImpl);                             \
     status = other.status;                                       \
@@ -74,7 +74,7 @@ FULLNAME & FULLNAME::operator= (                                 \
     return *this;                                                \
 }                                                                \
                                                                  \
-void FULLNAME::swap (FULLNAME & other) CMBASE64_NOEXCEPT         \
+void FULLNAME::swap (FULLNAME & other) throw()                   \
 {                                                                \
     pImpl.swap (other.pImpl);                                    \
                                                                  \

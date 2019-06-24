@@ -91,7 +91,7 @@ CMBASE64_API DecodeResult decodeFromB64TxtToBin (
                     Span<char> binDest,
                     DecIntermState * intermState,
                     bool toBeContinued)
-                            CMBASE64_NOEXCEPT
+                            throw()
 {
     DecodeResult result;
 

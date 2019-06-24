@@ -33,7 +33,7 @@ const char table[64] =
 CMBASE64_API void encodeFromBinToB64Txt (
                     ConstSpan<char> binSrc,
                     Span<char> textDest)
-                            CMBASE64_NOEXCEPT
+                            throw()
 {
     std::size_t size = binSrc.size ();
     std::size_t destCapacity = textDest.size ();
