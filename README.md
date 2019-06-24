@@ -80,6 +80,30 @@ std::string binaryString (binaryData.span().data(),
 
 If you need to decode to other fundamental types (`int`, `double`...), then you can use `cmbase64::decodeFromB64TxtToBin()` instead.
 
+## How to compile and test
+
+In Windows, with MSVC:
+```
+C:\...\CppMoveBase64> mkdir build
+
+C:\...\CppMoveBase64> cd build
+
+C:\...\CppMoveBase64\build> cmake ..
+[..]
+C:\...\CppMoveBase64\build> cmake --build .
+[..]
+C:\...\CppMoveBase64\build> ctest
+[..]
+100% tests passed, 0 tests failed out of 6
+```
+
+If you have several MSVC versions installed, you can specify one of them in the first `cmake` call:
+```
+C:\...\CppMoveBase64\build> cmake -G "Visual Studio 11 2012" ..
+```
+
+In Linux you can use the same commands, but instead of `cmake --build .` you might prefer to directly run `make`, which will preserve the nice colors of the compiler output.
+
 ## More details
 
 ### Rationale and design
