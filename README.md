@@ -117,6 +117,6 @@ In Linux you can use the same commands, but instead of `cmake --build .` you mig
 
 ### Advanced usage
 
-* Recycling buffers *(docs in progress...)*
+* [Recycling buffers](Doc/RecyclingBuffers.md)
 * Low level conversion with client-provided buffers *(docs in progress...)*
 * Stream conversion *(docs in progress...)*
