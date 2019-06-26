@@ -16,6 +16,7 @@
 void testEncodeHello ();
 void testEncodeVectorInt ();
 void testEncodeStreamed ();
+void testEncodeRecycle ();
 
 void testDecodeHello ();
 void testDecodeStreamed ();
@@ -32,6 +33,7 @@ testsTable [] =
     { "EncodeHello",         testEncodeHello },
     { "EncodeVectorInt",     testEncodeVectorInt },
     { "EncodeStreamed",      testEncodeStreamed },
+    { "EncodeRecycle",       testEncodeRecycle },
 
     { "DecodeHello",         testDecodeHello },
     { "DecodeStreamed",      testDecodeStreamed },
