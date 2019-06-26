@@ -4,7 +4,7 @@ The basic usage proposed in the [README](README.md) allocates a new object with 
 
 If you need to, you can save allocations by recycling `B64Text` and/or `BinData` objects.
 
-The trick consists in calling the member encode/decode functions instead of the free ones. As a side effect, you will need to check the resulting status after every encoding/decoding operation, because these functions never throw exceptions.
+The trick consists in calling the member encode/decode functions instead of the global ones. As a side effect, you will need to check the resulting status after every encoding/decoding operation, because these functions never throw exceptions.
 
 The code below illustrates this possibility:
 ```C++
