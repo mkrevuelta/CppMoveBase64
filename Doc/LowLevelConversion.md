@@ -1,6 +1,6 @@
 # Low level conversion with client-provided buffers
 
-The classes `B64Text` and `BinData` make this library special, different from any other base64 library out there (see why in the [README](README.md)).
+The classes `B64Text` and `BinData` make this library special, different from any other base64 library out there (see why in the [README](/README.md)).
 
 That said, it is a base64 library, after all. There is no reason to hide the raw, low level conversion functions:
 
@@ -33,7 +33,7 @@ struct DecodeResult
 };
 ```
 
-You can use these functions to encode/decode to/from vectors, arrays or any contiguous memory containers. Just use Spans to pass them references to your buffers (see [UniquePtr and Span](Doc/UniquePtrAndSpan.md) for more details).
+You can use these functions to encode/decode to/from vectors, arrays or any contiguous memory containers. Just use Spans to pass them references to your buffers (see [UniquePtr and Span](/Doc/UniquePtrAndSpan.md) for more details).
 
 The next two functions help by computing the required size for the output:
 
