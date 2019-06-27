@@ -1,6 +1,6 @@
 # Recycling buffers
 
-The basic usage proposed in the [README](README.md) allocates a new object with its own buffer in every encoding/decoding call.
+The basic usage proposed in the [README](/README.md) allocates a new object with its own buffer in every encoding/decoding call.
 
 If you need to, you can save allocations by recycling `B64Text` and/or `BinData` objects.
 
