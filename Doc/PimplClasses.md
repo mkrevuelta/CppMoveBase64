@@ -29,7 +29,7 @@ ConstSpan<char> span () const;
 ```
 
 See 
- [`Span` and `ConstSpan`](Doc/UniquePtrAndSpan.md) for details on how to access the referred data.
+ [`Span` and `ConstSpan`](/Doc/UniquePtrAndSpan.md) for details on how to access the referred data.
 
 In addition, `B64Text` has a `c_str()` member function that mimicks the `c_str()` of `std::string`. If the object is empty or in error state, `c_str()` just returns `""`.
 
