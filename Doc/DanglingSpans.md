@@ -23,13 +23,15 @@ Suppose that we change the code as follows:
 {
     std::string b64Text("SGVsbG8gd29ybGQhIQ==");
 
-    for (char c : cmbase64::decodeFromB64Txt (
-                      cmbase64::ConstSpan<char>(b64Text))
-                  .span())
+    auto binDataSpan = cmbase64::decodeFromB64Txt (
+                           cmbase64::ConstSpan<char>(b64Text))
+                               .span ();
+
+    for (char c : binDataSpan)
         std::cout << c;        // UNDEFINED BEHAVIOUR!!!
 }
 ```
 
-The object returned by `cmbase64::decodeFromB64Txt()` is a temorary object, and now it is not stored anywhere. The expression in the `for` loop is evaluated, and then the temporary is destroyed.
+The object returned by `cmbase64::decodeFromB64Txt()` is a temorary object, and now it is not stored anywhere. The expression in the `binDataSpan` initialization is evaluated, and then the temporary is destroyed. Thus, `binDataSpan` points to something that is not there anymore. It is a dangling Span.
 
-*To be continued...*
+In case you are wondering, you can safely move PIMPL objects and keep on using Spans that you obtained previously. Since they are PIMPL objects, the actual memory buffers are not reallocated by move operations.
