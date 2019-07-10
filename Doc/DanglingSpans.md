@@ -1,6 +1,6 @@
 # Beware of the dangling Spans
 
-[`Span` and `ConstSpan`](Doc/UniquePtrAndSpan.md) objects just contain pointers that refer to memory owned by some other objects. When you use a Span to access that memory you must be sure that it's still there. That is, you must make sure that the owner object hasn't been destroyed and the memory hasn't been deallocated.
+[`Span` and `ConstSpan`](/Doc/UniquePtrAndSpan.md) objects just contain pointers that refer to memory owned by some other objects. When you use a Span to access that memory you must be sure that it's still there. That is, you must make sure that the owner object hasn't been destroyed and the memory hasn't been deallocated.
 
 Let's take, for instance, this fragment of code:
 
