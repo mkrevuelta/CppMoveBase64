@@ -21,6 +21,6 @@ The concept is very similar to `gsl::span`. The data can be accessed as if they 
 + `begin()` and `end()` (which enable the use of range-based for loops)
 + `operator[]`
 
-Note that objects of type `Span` or `ConstSpan` don't really own the pointed memory. You must make sure that you don't try to use the `Span` after the destruction of the object that actually owned the data.
+Note that objects of type `Span` or `ConstSpan` don't really own the pointed memory. You must make sure that you don't try to use the `Span` after the destruction of the object that actually owned the data. See [Beware of the dangling Spans](/Doc/DanglingSpans.md).
 
 Regarding interfaces, the problem of `gsl::span` is that it can be (and is!) implemented in several, ABI-incompatible ways. `Span` just contains two pointers that act as `begin` and `end` of the sequence. `ConstSpan` is nearly identical and works with const data.
