@@ -108,16 +108,16 @@ In Linux you can use the same commands, but instead of `cmake --build .` you mig
 
 ### Rationale and design
 
-* [Motivation](Doc/Motivation.md)
-* [The ABI](Doc/Abi.md)
-* [`UniquePtr`, `Span` and `ConstSpan`](Doc/UniquePtrAndSpan.md)
-* [API macros](Doc/ApiMacros.md)
-* [PIMPL macros](Doc/PimplMacros.md)
-* [The PIMPL classes](Doc/PimplClasses.md)
+* [Motivation](/Doc/Motivation.md)
+* [The ABI](/Doc/Abi.md)
+* [`UniquePtr`, `Span` and `ConstSpan`](/Doc/UniquePtrAndSpan.md)
+* [API macros](/Doc/ApiMacros.md)
+* [PIMPL macros](/Doc/PimplMacros.md)
+* [The PIMPL classes](/Doc/PimplClasses.md)
 * [Beware of the dangling Spans](/Doc/DanglingSpans.md)
 
 ### Advanced usage
 
-* [Recycling buffers](Doc/RecyclingBuffers.md)
-* [Low level conversion with client-provided buffers](Doc/LowLevelConversion.md)
-* [Stream conversion](Doc/StreamConversion.md)
+* [Recycling buffers](/Doc/RecyclingBuffers.md)
+* [Low level conversion with client-provided buffers](/Doc/LowLevelConversion.md)
+* [Stream conversion](/Doc/StreamConversion.md)

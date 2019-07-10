@@ -1,6 +1,6 @@
 # Motivation
 
-CppMoveBase64 is a great C++ Base64 conversion library, but its functionality is a mere excuse. The main reason why I wrote it was to show, in a practical example, how to apply my ideas to make a C++ library with these compatibility characteristics (see [Why is this library special](../README.md#why-is-this-library-special)).
+CppMoveBase64 is a great C++ Base64 conversion library, but its functionality is a mere excuse. The main reason why I wrote it was to show, in a practical example, how to apply my ideas to make a C++ library with these compatibility characteristics (see [Why is this library special](/README.md#why-is-this-library-special)).
 
 C++ and the Standard Library have evolved a lot recently. The ecosystem is growing faster and faster. Though, some of the main principles of C++ (best performance, general purpose, wildly varied platforms) prevent it from having a frozen, universally compatible ABI. Other languages sacrifice performance (and more) in exchange of a great degree of compatibility.
 
