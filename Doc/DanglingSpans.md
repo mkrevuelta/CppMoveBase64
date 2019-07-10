@@ -11,9 +11,11 @@ Let's take, for instance, this fragment of code:
     auto binaryData = cmbase64::decodeFromB64Txt (
                           cmbase64::ConstSpan<char>(b64Text));
 
+    // The result has been moved into binaryData
+
     for (char c : binaryData.span())
         std::cout << c;
-        
+
 }   // <--- binaryData is destroyed here
 ```
 
